@@ -1,0 +1,46 @@
+{
+    "pets": [
+        {
+            "name": "Кошки",
+            "descriptionText": "Товары для кошек",
+            "image": "main/management/commands/entities_lookups/assets/pets/cat.jpg",
+            "imageFilename": "cat.jpg",
+            "url": "/cats/"
+        },
+        {
+            "name": "Собаки",
+            "descriptionText": "Товары для собак",
+            "image": "main/management/commands/entities_lookups/assets/pets/dog.jpg",
+            "imageFilename": "dog.jpg",
+            "url": "/dogs/"
+        },
+        {
+            "name": "Грызуны",
+            "descriptionText": "Товары для грызунов",
+            "image": "main/management/commands/entities_lookups/assets/pets/pig.jpg",
+            "imageFilename": "pig.jpg",
+            "url": "/rodents/"
+        },
+        {
+            "name": "Рептилии",
+            "descriptionText": "Товары для рептилий",
+            "image": "main/management/commands/entities_lookups/assets/pets/lizard.jpg",
+            "imageFilename": "lizard.jpg",
+            "url": "/reptiles/"
+        },
+        {
+            "name": "Птицы",
+            "descriptionText": "Товары для птиц",
+            "image": "main/management/commands/entities_lookups/assets/pets/parrot.jpg",
+            "imageFilename": "parrot.jpg",
+            "url": "/birds/"
+        },
+        {
+            "name": "Рыбки",
+            "descriptionText": "Товары для рыбок",
+            "image": "main/management/commands/entities_lookups/assets/pets/fish.jpg",
+            "imageFilename": "fish.jpg",
+            "url": "/fishes/"
+        }
+    ]
+}

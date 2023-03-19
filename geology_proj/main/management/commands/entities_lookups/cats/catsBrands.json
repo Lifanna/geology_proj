@@ -1,0 +1,428 @@
+{
+    "catsBrands": [
+        {
+            "name": "Almo Nature",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Almo Nature консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Applaws",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Crave",
+            "pet": "Кошки"
+        },
+        {
+            "name": "FLORIDA",
+            "pet": "Кошки"
+        },
+        {
+            "name": "FLORIDA консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "FLORIDA паучи",
+            "pet": "Кошки"
+        },
+        {
+            "name": "GATHER",
+            "pet": "Кошки"
+        },
+        {
+            "name": "GO! Solutions",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Grandorf",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Meowing Heads",
+            "pet": "Кошки"
+        },
+        {
+            "name": "NOW FRESH",
+            "pet": "Кошки"
+        },
+        {
+            "name": "PRIMORDIAL",
+            "pet": "Кошки"
+        },
+        {
+            "name": "SAVITA",
+            "pet": "Кошки"
+        },
+        {
+            "name": "SAVITA консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Стаут",
+            "pet": "Кошки"
+        },
+        {
+            "name": "1st Choice",
+            "pet": "Кошки"
+        },
+        {
+            "name": "All Cats",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Beaphar",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Best Dinner",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Brit",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Chedy",
+            "pet": "Кошки"
+        },
+        {
+            "name": "DOCTRINE",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Equilibrio",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Eukanuba",
+            "pet": "Кошки"
+        },
+        {
+            "name": "FARMINA",
+            "pet": "Кошки"
+        },
+        {
+            "name": "FLORIDA",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Felix",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Florida Preventive Line",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Frais",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Frank's ProGold",
+            "pet": "Кошки"
+        },
+        {
+            "name": "GATHER",
+            "pet": "Кошки"
+        },
+        {
+            "name": "GEMON (Monge)",
+            "pet": "Кошки"
+        },
+        {
+            "name": "GRANPLUS",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Gina",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Grand Prix",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Guabi Natural",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Happy cat",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Hill's Science Plan",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Hop Life",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Karmy",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Kitekat",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Monge",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Mr.Buffalo",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Mypets",
+            "pet": "Кошки"
+        },
+        {
+            "name": "NERO GOLD super premium",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Natural Trainer",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Nature's Table",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Ontario",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Organix",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Organix Preventive Line",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Perfect Fit",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Prime",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Probalance",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Pronature",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Purina One",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Purina Pro Plan",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Royal Canin",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Sirius",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Smart Cat",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Statera",
+            "pet": "Кошки"
+        },
+        {
+            "name": "TiTBiT",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Wellness CORE",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Whiskas",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Зоогурман",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Мираторг",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Мираторг вет. корма",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Мнямс",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Наша Марка",
+            "pet": "Кошки"
+        },
+        {
+            "name": "ОСКАР",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Родные корма",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Berkley",
+            "pet": "Кошки"
+        },
+        {
+            "name": "BioMenu",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Bozita",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Brooksfield",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Dr.Clauder's",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Florida Preventive Line консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Frank's ProGold консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Gourmet",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Grand Prix",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Hill's консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Inaba",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Molina",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Nature's Table",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Nero Gold консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Ontario (консервы, лакомства)",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Organix Preventive Line консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Organix консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Organix паучи",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Pettric",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Prime Asia",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Prime Ever",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Prime Nature",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Purina Pro Plan (паучи)",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Royal Canin паучи",
+            "pet": "Кошки"
+        },
+        {
+            "name": "SAVITA консервы",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Sheba",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Smart Cat паучи",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Tasty",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Wellness CORE",
+            "pet": "Кошки"
+        },
+        {
+            "name": "X-CAT",
+            "pet": "Кошки"
+        },
+        {
+            "name": "mi-mi",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Деревенские лакомства",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Зооник (корм)",
+            "pet": "Кошки"
+        },
+        {
+            "name": "Ночной охотник",
+            "pet": "Кошки"
+        },
+        {
+            "name": "GinaТерра Кот",
+            "pet": "Кошки"
+        }
+    ]
+}

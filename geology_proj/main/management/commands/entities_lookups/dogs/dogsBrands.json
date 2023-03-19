@@ -1,0 +1,288 @@
+{
+    "dogsBrands": [
+        {
+            "name": "Almo Nature",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Almo Nature консервы",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Applaws",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Crave",
+            "pet": "Собаки"
+        },
+        {
+            "name": "FLORIDA",
+            "pet": "Собаки"
+        },
+        {
+            "name": "FLORIDA консервы",
+            "pet": "Собаки"
+        },
+        {
+            "name": "FLORIDA паучи",
+            "pet": "Собаки"
+        },
+        {
+            "name": "GATHER",
+            "pet": "Собаки"
+        },
+        {
+            "name": "GO! Solutions",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Grandorf",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Meowing Heads",
+            "pet": "Собаки"
+        },
+        {
+            "name": "NOW FRESH",
+            "pet": "Собаки"
+        },
+        {
+            "name": "PRIMORDIAL",
+            "pet": "Собаки"
+        },
+        {
+            "name": "SAVITA",
+            "pet": "Собаки"
+        },
+        {
+            "name": "SAVITA консервы",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Стаут",
+            "pet": "Собаки"
+        },
+        {
+            "name": "1st Choice",
+            "pet": "Собаки"
+        },
+        {
+            "name": "All Cats",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Beaphar",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Best Dinner",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Brit",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Chedy",
+            "pet": "Собаки"
+        },
+        {
+            "name": "DOCTRINE",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Equilibrio",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Eukanuba",
+            "pet": "Собаки"
+        },
+        {
+            "name": "FARMINA",
+            "pet": "Собаки"
+        },
+        {
+            "name": "FLORIDA",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Felix",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Florida Preventive Line",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Frais",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Frank's ProGold",
+            "pet": "Собаки"
+        },
+        {
+            "name": "GATHER",
+            "pet": "Собаки"
+        },
+        {
+            "name": "GEMON (Monge)",
+            "pet": "Собаки"
+        },
+        {
+            "name": "GRANPLUS",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Gina",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Grand Prix",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Guabi Natural",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Happy cat",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Hill's Science Plan",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Hop Life",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Karmy",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Kitekat",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Monge",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Mr.Buffalo",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Mypets",
+            "pet": "Собаки"
+        },
+        {
+            "name": "NERO GOLD super premium",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Natural Trainer",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Nature's Table",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Ontario",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Organix",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Organix Preventive Line",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Perfect Fit",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Prime",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Probalance",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Pronature",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Purina One",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Purina Pro Plan",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Royal Canin",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Sirius",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Smart Cat",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Statera",
+            "pet": "Собаки"
+        },
+        {
+            "name": "TiTBiT",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Wellness CORE",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Whiskas",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Зоогурман",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Мираторг",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Мираторг вет. корма",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Мнямс",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Наша Марка",
+            "pet": "Кошки"
+        },
+        {
+            "name": "ОСКАР",
+            "pet": "Собаки"
+        },
+        {
+            "name": "Родные корма",
+            "pet": "Собаки"
+        }
+    ]
+}
