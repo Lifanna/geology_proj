@@ -1,0 +1,22 @@
+{% block content %}
+  <thead class="bg-navbar-main">
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Наименование <a href="/objects/add" class="ml-4 text-dark"><i class="fas fa-plus"></i></a></th>
+      <th scope="col">Дата создания</th>
+      <th scope="col">Геолог</th>
+      <th scope="col">Статус <a href="#" class="ml-4 text-dark"><i class="fa fa-sliders-h" aria-hidden="true"></i></a></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for license in object_list %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="/objects/{{ license.id }}" class="text-dark">{{ license.short_name }}</a></td>
+        <td>{{ license.created_at }}</td>
+        <td>{{ license.geologist }}</td>
+        <td>{{ license.status }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %}

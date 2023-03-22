@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="col-12">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <a href="/main_menu?target=users">Назад</a>
+                    <a href="/users/edit/{{ object.id }}" class="ml-3 btn btn-outline-success">Редактировать</a>
+                    <h2>{{ object.first_name }} {{ object.last_name }}</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="username" class="font-weight-bold">Логин пользователя</label>
+                    <input type="text" class="form-control" readonly id="username" value="{{ object.username }}">
+                </div>
+                <div class="form-group">
+                    <label for="first_name" class="font-weight-bold">Имя</label>
+                    <input type="text" class="form-control" readonly id="first_name" value="{{ object.first_name }}">
+                </div>
+                <div class="form-group">
+                    <label for="last_name" class="font-weight-bold">Фамилия</label>
+                    <input type="text" class="form-control" readonly id="last_name" value="{{ object.last_name }}">
+                </div>
+                <div class="form-group">
+                    <label for="patronymic" class="font-weight-bold">Отчество</label>
+                    <input type="text" class="form-control" readonly id="patronymic" value="{{ object.patronymic }}">
+                </div>
+                <div class="form-group">
+                    <label for="team" class="font-weight-bold">Номер бригады</label>
+                    <input type="text" class="form-control" readonly id="team" value="{{ object.team }}">
+                </div>
+                <div class="form-group">
+                    <label for="phone_number" class="font-weight-bold">Номер телефона</label>
+                    <input type="text" class="form-control" readonly id="phone_number" value="{{ object.phone_number }}">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="font-weight-bold">Email</label>
+                    <input type="text" class="form-control" readonly id="email" value="{{ object.email }}">
+                </div>
+                <div class="form-group">
+                    <label for="role" class="font-weight-bold">Должность</label>
+                    <input type="text" class="form-control" readonly id="role" value="{{ object.role }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="created_at" class="font-weight-bold">Дата создания</label>
+                    <input type="text" class="form-control" readonly id="created_at" value="{{ object.created_at }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="updated_at" class="font-weight-bold">Дата обновления</label>
+                    <input type="text" class="form-control" readonly id="updated_at" value="{{ object.updated_at }}">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

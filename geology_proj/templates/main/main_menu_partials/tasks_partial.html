@@ -1,0 +1,28 @@
+{% block content %}
+  <thead class="bg-navbar-main">
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Задание <a href="/tasks/add" class="ml-4 text-dark"><i class="fas fa-plus"></i></a></th>
+      <th scope="col">Лицензия</th>
+      <th scope="col">Водоток</th>
+      <th scope="col">Линия</th>
+      <th scope="col">Скважина</th>
+      <th scope="col">Ответственный</th>
+      <th scope="col">Статус</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in object_list %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="/tasks/{{ task.id }}" class="text-dark">{{ task.short_name }}</a></td>
+        <td>{{ task.license }}</td>
+        <td>{{ task.license.primary_watercourse }}</td>
+        <td>{{ task.line }}</td>
+        <td>{{ task.well }}</td>
+        <td>{{ task.responsible }}</td>
+        <td>{{ task.status }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %}
