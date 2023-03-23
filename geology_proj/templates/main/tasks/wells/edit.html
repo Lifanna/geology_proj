@@ -8,15 +8,6 @@
             <form method="post">
                 {% csrf_token %}
 
-                <div class="form-group">
-                    <label for="well" class="font-weight-bold">Скважины</label>
-                    <div id="wells" class="card card-body" style="overflow-y: scroll; height:200px;">
-                        {% for well in wells %}
-                            <p><a href="/wells/{{well.well.id}}" class="text-dark">{{ well.well.name }}</a></p>
-                        {% endfor %}
-                    </div>
-                </div>
-
                 {% for hidden in form.hidden_fields %}
                     {{ hidden }}
                 {% endfor %}

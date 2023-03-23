@@ -4,28 +4,19 @@
     <div class="col-12">
         <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2>{{ object.short_name }}</h2>
+            <h2>Новая линия</h2>
             <form method="post">
                 {% csrf_token %}
-
-                <div class="form-group">
-                    <label for="well" class="font-weight-bold">Скважины</label>
-                    <div id="wells" class="card card-body" style="overflow-y: scroll; height:200px;">
-                        {% for well in wells %}
-                            <p><a href="/wells/{{well.well.id}}" class="text-dark">{{ well.well.name }}</a></p>
-                        {% endfor %}
-                    </div>
-                </div>
-
+            
                 {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
+                {{ hidden }}
                 {% endfor %}
                 {% for field in form.visible_fields %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         {% render_field field class="form-control" placeholder=field.label %}
                         {% for error in field.errors %}
-                        <span class="help-block">{{ error }}</span>
+                            <span class="help-block text-danger">{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% endfor %}
@@ -33,7 +24,7 @@
                     <button type="submit" class="btn btn-success">
                     <span class="glyphicon glyphicon-ok"></span> Сохранить
                     </button>
-                    <a href="/main_menu?target=tasks" class="btn btn-default">Назад</a>
+                    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-default">Назад</a>
                 </div>
             </form>
         </div>

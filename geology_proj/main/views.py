@@ -69,12 +69,29 @@ class ObjectDetailView(DetailView):
     model = models.License
     queryset = models.License.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['lines'] = models.LineLicenseWaterCourse.objects.filter(license=self.get_object()).all()
+        context['watercourses'] = models.LicenseWaterCourse.objects.filter(license=self.get_object()).all()
+
+        return context
+
 
 class ObjectEditView(UpdateView):
     template_name = "main/objects/edit.html"
     model = models.License
     form_class = forms.ObjectUpdateForm
     success_url = "/main_menu?target=objects"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['formm'] = forms.LicenseWaterCourseCreateForm
+        
+        context['lines'] = models.LineLicenseWaterCourse.objects.filter(license=self.get_object()).all()
+        context['watercourses'] = models.LicenseWaterCourse.objects.filter(license=self.get_object()).all()
+
+        return context
 
     # def get_object(self, queryset):
     #     queryset = self.queryset
@@ -94,12 +111,25 @@ class TaskDetailView(DetailView):
     model = models.Task
     queryset = models.Task.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['wells'] = models.WellTask.objects.filter(task=self.get_object()).all()
+
+        return context
 
 class TaskEditView(UpdateView):
     template_name = "main/tasks/edit.html"
     model = models.Task
     form_class = forms.TaskUpdateForm
     success_url = "/main_menu?target=tasks"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context['wells'] = models.WellTask.objects.filter(task=self.get_object()).all()
+
+        return context
 
     # def get_object(self, queryset):
     #     queryset = self.queryset
@@ -153,4 +183,104 @@ class WaterCourseCreateView(CreateView):
     template_name = "main/objects/watercourses/new.html"
     model = models.WaterCourse
     form_class = forms.WaterCourseCreateForm
-    success_url = "/main_menu?target=users"
+    success_url = "/main_menu?target=objects"
+
+
+class LicenseWaterCourseCreateView(CreateView):
+    template_name = "main/objects/watercourses_licenses/new.html"
+    model = models.WaterCourse
+    form_class = forms.LicenseWaterCourseCreateForm
+    # success_url = "/main_menu?target=users"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("pk")
+
+        context['license_id'] = license_id
+        context['license_name'] = models.License.objects.get(pk=license_id).name
+
+        return context
+
+    def get_success_url(self):
+        success_url = f"/objects/edit/{self.kwargs.get('pk')}"
+
+        return success_url
+
+
+"""LINES CLASS-BASED VIEWS"""
+class LineCreateView(CreateView):
+    template_name = "main/objects/lines/new.html"
+    model = models.Line
+    form_class = forms.LineCreateForm
+    success_url = "/main_menu?target=objects"
+
+
+class LineLicenseWaterCourseCreateView(CreateView):
+    template_name = "main/objects/lines_watercourses_licenses/new.html"
+    model = models.LineLicenseWaterCourse
+    form_class = forms.LineLicenseWaterCourseCreateForm
+    # success_url = "/main_menu?target=users"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("pk")
+
+        context['license_id'] = license_id
+        context['license_name'] = models.License.objects.get(pk=license_id).name
+
+        return context
+
+    def get_success_url(self):
+        success_url = f"/objects/edit/{self.kwargs.get('pk')}"
+
+        return success_url
+
+
+"""WELLS CLASS-BASED VIEWS"""
+class WellCreateView(CreateView):
+    template_name = "main/tasks/wells/new.html"
+    model = models.Well
+    form_class = forms.WellCreateForm
+    success_url = "/main_menu?target=tasks"
+
+
+class WellDetailView(DetailView):
+    template_name = "main/tasks/wells/index.html"
+    model = models.Well
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['layers'] = models.Layer.objects.filter(well=self.get_object()).all()
+
+        return context
+
+
+class WellEditView(UpdateView):
+    template_name = "main/tasks/wells/edit.html"
+    model = models.Well
+    form_class = forms.WellUpdateForm
+
+    def get_success_url(self):
+        success_url = "/wells/edit/%s"%self.get_object().pk
+
+        return success_url
+
+
+class WellTaskCreateView(CreateView):
+    template_name = "main/tasks/wells/well_tasks/new.html"
+    model = models.WellTask
+    form_class = forms.WellTaskCreateForm
+    success_url = "/main_menu?target=tasks"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        task_id = self.kwargs.get("pk")
+
+        context['task_id'] = task_id
+        context['task_name'] = models.License.objects.get(pk=task_id).short_name
+
+        return context

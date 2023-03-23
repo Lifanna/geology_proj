@@ -38,21 +38,31 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="primary_watercourse" class="font-weight-bold">Главный водоток</label>
-                    <select class="form-control" multiple>
-                        {% for primary_watercourse in object.primary_watercourse.all %}
-                            <option readonly value="{{ primary_watercourse.id }}">{{ primary_watercourse.name }}</option>
+                    <label for="watercourses" class="font-weight-bold">Водотоки</label>
+                    <div id="watercourses" class="card card-body" style="overflow-y: scroll; height:200px;">
+                        {% for watercourse in watercourses %}
+                            {% if watercourse.is_primary == 0 %}
+                                <p>{{ watercourse.watercourse.name }} <span class="text-success">Главный</span></p>
+                            {% else %}
+                                <p>
+                                    {{ watercourse.watercourse.name }} 
+                                    <span class="text-secondary">Побочный</span> 
+                                    {% if watercourse.parent_watercourse %}
+                                        ({{ watercourse.parent_watercourse.name }})
+                                    {% endif %}
+                                </p>
+                            {% endif %}
                         {% endfor %}
-                    </select>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="secondary_watercourse" class="font-weight-bold">Побочный водоток</label>
-                    <select class="form-control" multiple>
-                        {% for secondary_watercourse in object.secondary_watercourse.all %}
-                            <option readonly value="{{ secondary_watercourse.id }}">{{ secondary_watercourse.name }}</option>
+                    <label for="lines" class="font-weight-bold">Линии</label>
+                    <div id="watercourses" class="card card-body" style="overflow-y: scroll; height:200px;">
+                        {% for line in lines %}
+                            <p>{{ line.line.name }} ({{line.watercourse.name}})</p>
                         {% endfor %}
-                    </select>
+                    </div>
                 </div>
 
                 <div class="form-group">

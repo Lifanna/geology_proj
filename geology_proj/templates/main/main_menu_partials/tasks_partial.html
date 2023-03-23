@@ -17,9 +17,17 @@
         <th scope="row">{{ forloop.counter }}</th>
         <td><a href="/tasks/{{ task.id }}" class="text-dark">{{ task.short_name }}</a></td>
         <td>{{ task.license }}</td>
-        <td>{{ task.license.primary_watercourse }}</td>
+        <td>
+          {% for watercourse in task.license.watercourses.all %}
+            {{ watercourse }},
+          {% endfor %}
+        </td>
         <td>{{ task.line }}</td>
-        <td>{{ task.well }}</td>
+        <td>
+          {% for well in task.wells.all %}
+            {{ well }},
+          {% endfor %}
+        </td>
         <td>{{ task.responsible }}</td>
         <td>{{ task.status }}</td>
       </tr>

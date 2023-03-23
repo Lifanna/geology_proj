@@ -151,7 +151,8 @@ class LicenseStatus(models.Model):
 class WaterCourse(models.Model):
     name = models.CharField("Наименование", max_length=255)
 
-    parent_watercourse = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Главный водоток")
+    # parent_watercourse = models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Главный водоток")
+    # parent_watercourse = models.ManyToManyField('self', through='LicenseWaterCourse', related_name="parent_watercourse", blank=True, verbose_name="Главный водоток")
 
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 
@@ -163,6 +164,75 @@ class WaterCourse(models.Model):
     class Meta:
         verbose_name = "Водоток"
         verbose_name_plural = "Водотоки"
+
+
+class Line(models.Model):
+    name = models.CharField("Наименование", max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Линия"
+        verbose_name_plural = "Линии"
+
+
+class Well(models.Model):
+    name = models.CharField("Наименование", max_length=255)
+
+    description = models.TextField("Описание", null=True, blank=True)
+
+    comment = models.TextField("Комментарий", null=True, blank=True)
+
+    line = models.ForeignKey(Line, verbose_name="Линия", on_delete=models.CASCADE, null=True)
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Скважина"
+        verbose_name_plural = "Скважины"
+
+
+class LayerMaterial(models.Model):
+    name = models.CharField("Наименование", max_length=255)
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Материал слоя (интервала)"
+        verbose_name_plural = "Материалы слоев (интервалов)"
+
+
+class Layer(models.Model):
+    name = models.CharField("Наименование", max_length=255)
+
+    well = models.ForeignKey(Well, verbose_name="Скважина", on_delete=models.CASCADE)
+
+    layer_material = models.ForeignKey(LayerMaterial, verbose_name="Материал слоя", on_delete=models.CASCADE)
+
+    responsible = models.ForeignKey(CustomUser, verbose_name="Ответственный", on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Интервал"
+        verbose_name_plural = "Интервалы"
+
 
 class License(models.Model):
     short_name = models.CharField("Наименование", max_length=255)
@@ -177,11 +247,11 @@ class License(models.Model):
 
     mbu = models.ForeignKey(CustomUser, related_name='mbu_id', on_delete=models.SET_NULL, verbose_name="МБУ", null=True)
 
-    pmbou = models.ForeignKey(CustomUser, related_name='pmbou_id', on_delete=models.SET_NULL, verbose_name="ПМБОУ", null=True)
+    pmbou = models.ForeignKey(CustomUser, related_name='pmbou_id', on_delete=models.SET_NULL, verbose_name="ПМБУ", null=True)
 
-    primary_watercourse = models.ManyToManyField(WaterCourse, related_name='primary_wc_id', verbose_name="Главный водоток", blank=True)
+    watercourses = models.ManyToManyField(WaterCourse, through='LicenseWaterCourse', through_fields=('license', 'watercourse'), verbose_name="Водотоки", blank=True)
 
-    secondary_watercourse = models.ManyToManyField(WaterCourse, related_name='secondary_wc_id', verbose_name="Побочный водоток", blank=True)
+    lines = models.ManyToManyField(Line, through='LineLicenseWaterCourse', through_fields=('license', 'line'), verbose_name="Водотоки", blank=True)
 
     comment = models.TextField("Комментарий", null=True, blank=True)
 
@@ -197,26 +267,27 @@ class License(models.Model):
         verbose_name_plural = "Лицензии"
 
 
-class Well(models.Model):
-    name = models.TextField("Наименование")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Скважина"
-        verbose_name_plural = "Скважины"
+class WaterCourseType(models.IntegerChoices):
+    PRIMARY = 0, 'Главный'
+    SECONDARY = 1, 'Побочный'
 
 
-class Line(models.Model):
-    name = models.CharField("Наименование", max_length=50)
+class LicenseWaterCourse(models.Model):
+    watercourse = models.ForeignKey(WaterCourse, on_delete=models.SET_NULL, null=True, verbose_name="Водоток")
 
-    def __str__(self):
-        return self.name
+    license = models.ForeignKey(License, on_delete=models.CASCADE, verbose_name="Лицензия")
 
-    class Meta:
-        verbose_name = "Линия"
-        verbose_name_plural = "Линии"
+    parent_watercourse = models.ForeignKey(WaterCourse, on_delete=models.SET_NULL, null=True, verbose_name="Главный водоток", related_name="parent_watercourse")
+
+    is_primary = models.IntegerField(default=WaterCourseType.PRIMARY, choices=WaterCourseType.choices)
+
+
+class LineLicenseWaterCourse(models.Model):
+    line = models.ForeignKey(Line, on_delete=models.SET_NULL, null=True, verbose_name="Линия")
+
+    license = models.ForeignKey(License, on_delete=models.CASCADE, verbose_name="Лицензия")
+
+    watercourse = models.ForeignKey(WaterCourse, on_delete=models.SET_NULL, null=True, verbose_name="Водоток")
 
 
 class TaskStatus(models.Model):
@@ -239,7 +310,7 @@ class Task(models.Model):
 
     line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name="Линия")
 
-    well = models.ForeignKey(Well, on_delete=models.CASCADE, verbose_name="Скважина")
+    wells = models.ManyToManyField(Well, through='WellTask', through_fields=('task', 'well'), verbose_name="Скважины")
 
     responsible = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Ответственный")
 
@@ -257,3 +328,9 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Задание"
         verbose_name_plural = "Задания"
+
+
+class WellTask(models.Model):
+    task = models.ForeignKey(Task, verbose_name="Задание", on_delete=models.CASCADE)
+
+    well = models.ForeignKey(Well, verbose_name="Скважина", on_delete=models.CASCADE)

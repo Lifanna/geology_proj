@@ -1,5 +1,6 @@
 from rest_framework.generics import ListAPIView
 from main.api import serializers
+from main import models
 
 class WaterCourseChildrenDetailView(ListAPIView):
     serializer_class = serializers.WaterCourseChildrenSerializer

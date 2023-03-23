@@ -91,3 +91,27 @@ class TeamAdmin(ModelAdmin):
 class RoleAdmin(ModelAdmin):
     """Регистрация модели CustomUser в админ панели"""
     pass
+
+
+@admin.register(models.LineLicenseWaterCourse)
+class LineLicenseWaterCourseAdmin(ModelAdmin):
+    """Регистрация модели CustomUser в админ панели"""
+    pass
+
+
+@admin.register(models.WellTask)
+class WellTaskAdmin(ModelAdmin):
+    """Регистрация модели CustomUser в админ панели"""
+    pass
+
+
+@admin.register(models.Layer)
+class LayerAdmin(ModelAdmin):
+    """Регистрация модели CustomUser в админ панели"""
+    pass
+
+
+@admin.register(models.LayerMaterial)
+class LayerMaterialAdmin(ModelAdmin):
+    """Регистрация модели CustomUser в админ панели"""
+    pass

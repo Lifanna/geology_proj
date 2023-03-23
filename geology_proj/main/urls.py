@@ -45,8 +45,21 @@ urlpatterns = [
     path('users/edit/<int:pk>', views.CustomUserEditView.as_view(), name='users_edit'),
     path('users/edit/password/<int:pk>', views.CustomUserPasswordChangeView.as_view(), name='users_change_password'),
 
-    path('watercourses/add', views.WaterCourseCreateView.as_view(), name='watercourse_add'),
+    # watercourses urls
+    path('watercourses/add', views.WaterCourseCreateView.as_view(), name='watercourses_add'),
     path('watercourses/children/<int:pk>', api_views.WaterCourseChildrenDetailView.as_view(), name='watercourse_children'),
+    path('objects/set_watercourses/<int:pk>', views.LicenseWaterCourseCreateView.as_view(), name='license_watercourse_add'),
+
+    # watercourses urls
+    # запилить CRUD для линий
+    path('lines/add', views.LineCreateView.as_view(), name='lines_add'),
+    path('objects/set_lines/<int:pk>', views.LineLicenseWaterCourseCreateView.as_view(), name='line_license_watercourse_add'),
+
+    # wells urls
+    path('wells/add', views.WellCreateView.as_view(), name='wells_add'),
+    path('wells/<int:pk>', views.WellDetailView.as_view(), name='wells_detail'),
+    path('wells/edit/<int:pk>', views.WellEditView.as_view(), name='wells_edit'),
+    path('wells/set_welltasks/<int:pk>', views.WellTaskCreateView.as_view(), name='wells_task_add'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

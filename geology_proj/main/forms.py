@@ -15,6 +15,19 @@ class ObjectCreateForm(forms.ModelForm):
     class Meta:
         model = models.License
         fields = '__all__'
+        exclude = ('watercourses', 'lines',)
+
+
+class LicenseWaterCourseCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.LicenseWaterCourse
+        fields = '__all__'
+
+
+class LineLicenseWaterCourseCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.LineLicenseWaterCourse
+        fields = '__all__'
 
 
 class ObjectUpdateForm(forms.ModelForm):
@@ -28,10 +41,14 @@ class ObjectUpdateForm(forms.ModelForm):
             'used_enginery',
             'mbu',
             'pmbou',
-            'primary_watercourse',
-            'secondary_watercourse',
+            # 'watercourses',
             'comment',
         )
+    
+    # watercourses = forms.ModelMultipleChoiceField(
+    #     queryset=models.WaterCourse.objects.all(),
+    #     widget=forms.CheckboxSelectMultiple
+    # )
 
 
 """TASKS FORMS"""
@@ -49,7 +66,7 @@ class TaskUpdateForm(forms.ModelForm):
             'description',
             'license',
             'line',
-            'well',
+            # 'wells',
             'responsible',
             'status',
             'comment',
@@ -121,3 +138,36 @@ class WaterCourseCreateForm(forms.ModelForm):
     class Meta:
         model = models.WaterCourse
         fields = '__all__'
+
+
+"""LINES FORMS"""
+class LineCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Line
+        fields = '__all__'
+
+
+"""WELLS FORMS"""
+class WellCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.Well
+        fields = '__all__'
+
+
+class WellUpdateForm(forms.ModelForm):
+    class Meta:
+        model = models.Well
+        fields = (
+            'name',
+            'description',
+            'comment',
+            'line',
+        )
+
+
+class WellTaskCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.WellTask
+        fields = '__all__'
+        # exclude = ('watercourses', 'lines',)
