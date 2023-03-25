@@ -2,7 +2,7 @@
   <thead class="bg-navbar-main">
     <tr>
       <th scope="col">№</th>
-      <th scope="col">Задание <a href="/tasks/add" class="ml-4 text-dark"><i class="fas fa-plus"></i></a></th>
+      <th class="w-25" scope="col">Задание <a href="/tasks/add" class="ml-4 text-dark"><i class="fas fa-plus"></i></a></th>
       <th scope="col">Лицензия</th>
       <th scope="col">Водоток</th>
       <th scope="col">Линия</th>
@@ -16,7 +16,7 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td><a href="/tasks/{{ task.id }}" class="text-dark">{{ task.short_name }}</a></td>
-        <td>{{ task.license }}</td>
+        <td>{{ task.license.name|truncatechars:10 }}</td>
         <td>
           {% for watercourse in task.license.watercourses.all %}
             {{ watercourse }},
@@ -28,7 +28,7 @@
             {{ well }},
           {% endfor %}
         </td>
-        <td>{{ task.responsible }}</td>
+        <td>{{ task.responsible|truncatechars:10 }}</td>
         <td>{{ task.status }}</td>
       </tr>
     {% endfor %}

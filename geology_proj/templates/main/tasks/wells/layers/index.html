@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="col-12">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <a href="{{ back_url }}">Назад</a>
+                    <a href="/layers/edit/{{ object.id }}?well={{ well_id }}" class="ml-3 btn btn-outline-success">Редактировать</a>
+                    <h2>{{ object.name }}</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="font-weight-bold">Наименование</label>
+                    <input type="text" class="form-control" readonly id="name" value="{{ object.name }}">
+                </div>
+                <div class="form-group">
+                    <label for="name" class="font-weight-bold">Скважина</label>
+                    <input type="text" class="form-control" readonly id="well" value="{{ object.well.name }}">
+                </div>
+                <div class="form-group">
+                    <label for="name" class="font-weight-bold">Материал</label>
+                    <input type="text" class="form-control" readonly id="material" value="{{ object.layer_material.name }}">
+                </div>
+                <div class="form-group">
+                    <label for="sample_obtained" class="font-weight-bold">Проба взята</label>
+                    <input type="text" class="form-control" readonly id="sample_obtained" value="{% if object.sample_obtained %}Да{% else %}Нет{% endif %}">
+                </div>
+                <div class="form-group">
+                    <label for="drilling_stopped" class="font-weight-bold">Бурение остановлено</label>
+                    <input type="text" class="form-control" readonly id="drilling_stopped" value="{% if object.drilling_stopped %}Да{% else %}Нет{% endif %}">
+                </div>
+                <div class="form-group">
+                    <label for="aquifer" class="font-weight-bold">Водоносный слой</label>
+                    <input type="text" class="form-control" readonly id="aquifer" value="{% if object.aquifer %}Да{% else %}Нет{% endif %}">
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="font-weight-bold">Комментарий</label>
+                    <textarea type="text" class="form-control" readonly id="comment" rows="7">{{ object.comment }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="created_at" class="font-weight-bold">Дата создания</label>
+                    <input type="text" class="form-control" readonly id="created_at" value="{{ object.created_at }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="updated_at" class="font-weight-bold">Дата обновления</label>
+                    <input type="text" class="form-control" readonly id="updated_at" value="{{ object.updated_at }}">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -171,3 +171,18 @@ class WellTaskCreateForm(forms.ModelForm):
         model = models.WellTask
         fields = '__all__'
         # exclude = ('watercourses', 'lines',)
+
+
+"""LAYERS FORMS"""
+class LayerCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.Layer
+        fields = '__all__'
+
+
+class LayerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = models.Layer
+        fields = (
+            'name',
+        )

@@ -216,11 +216,21 @@ class LayerMaterial(models.Model):
 class Layer(models.Model):
     name = models.CharField("Наименование", max_length=255)
 
+    description = models.TextField("Описание", null=True, blank=True)
+
+    comment = models.TextField("Комментарий", null=True, blank=True)
+
     well = models.ForeignKey(Well, verbose_name="Скважина", on_delete=models.CASCADE)
 
     layer_material = models.ForeignKey(LayerMaterial, verbose_name="Материал слоя", on_delete=models.CASCADE)
 
     responsible = models.ForeignKey(CustomUser, verbose_name="Ответственный", on_delete=models.CASCADE)
+
+    sample_obtained = models.BooleanField("Проба взята", default=False)
+
+    drilling_stopped = models.BooleanField("Бурение остановлено", default=False)
+
+    aquifer = models.BooleanField("Водоносный слой", default=False)
 
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 

@@ -284,3 +284,46 @@ class WellTaskCreateView(CreateView):
         context['task_name'] = models.License.objects.get(pk=task_id).short_name
 
         return context
+
+
+"""LAYERS CLASS-BASED VIEWS"""
+class LayerCreateView(CreateView):
+    template_name = "main/tasks/wells/layers/new.html"
+    model = models.Layer
+    form_class = forms.LayerCreateForm
+
+    def get_success_url(self):
+        well_id = self.request.GET.get("well")
+        return f"/wells/{well_id}"
+
+
+class LayerDetailView(DetailView):
+    template_name = "main/tasks/wells/layers/index.html"
+    model = models.Layer
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        well_id = self.request.GET.get("well")
+        context['back_url'] = f"/wells/{well_id}"
+        context['well_id'] = well_id
+
+        return context
+
+
+class LayerUpdateView(UpdateView):
+    template_name = "main/tasks/wells/layers/edit.html"
+    model = models.Layer
+    form_class = forms.LayerCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        well_id = self.request.GET.get("well")
+        context['back_url'] = f"/wells/{well_id}"
+
+        return context
+
+    def get_success_url(self):
+        well_id = self.request.GET.get("well")
+        return f"/wells/{well_id}"

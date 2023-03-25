@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="list-group d-flex flex-row" id="list-tab" role="tablist">
         <a class="list-group-item list-group-item-action {% if target == 'objects' %}active{% endif %}" id="list-home-list" href="/main_menu?target=objects">Лицензии</a>
-        <a class="list-group-item list-group-item-action {% if target == 'tasks' %}active{% endif %}" id="list-profile-list" href="/main_menu?target=tasks">Задания</a>
+        <a class="list-group-item list-group-item-action {% if target == 'tasks' or target == None %}active{% endif %}" id="list-profile-list" href="/main_menu?target=tasks">Задания</a>
         <a class="list-group-item list-group-item-action {% if target == 'users' %}active{% endif %}" id="list-messages-list" href="/main_menu?target=users">Пользователи</a>
         <a class="list-group-item list-group-item-action {% if target == 'section_editor' %}active{% endif %}" id="list-settings-list" href="/main_menu?target=section_editor">Редактор разреза</a>
         <a class="list-group-item list-group-item-action {% if target == 'documents' %}active{% endif %}" id="list-settings-list" href="/main_menu?target=documents">Документация</a>
@@ -22,7 +22,7 @@
         {% elif target == 'documents' %}
           {% include 'main/main_menu_partials/documents_partial.html' %}  
         {% else %}
-          
+          {% include 'main/main_menu_partials/tasks_partial.html' %}
         {% endif %}
       </table>
     </div>

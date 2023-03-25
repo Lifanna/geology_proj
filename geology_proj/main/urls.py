@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    path('', views.MainMenuView.as_view(), name="index"),
     path('main_menu/', views.MainMenuView.as_view(), name="main_menu"),
     
     path('login/', views.CustomLoginView.as_view(), name='login'),
@@ -60,6 +60,11 @@ urlpatterns = [
     path('wells/<int:pk>', views.WellDetailView.as_view(), name='wells_detail'),
     path('wells/edit/<int:pk>', views.WellEditView.as_view(), name='wells_edit'),
     path('wells/set_welltasks/<int:pk>', views.WellTaskCreateView.as_view(), name='wells_task_add'),
+
+    # layers urls
+    path('layers/add', views.LayerCreateView.as_view(), name='layers_add'),
+    path('layers/<int:pk>', views.LayerDetailView.as_view(), name='layers_detail'),
+    path('layers/edit/<int:pk>', views.LayerUpdateView.as_view(), name='layers_edit'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
