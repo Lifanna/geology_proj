@@ -4,11 +4,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from main import models, forms
-
-
-# Create your views here.
-def index(request):
-    return render(request, "main/index.html")
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class CustomLoginView(LoginView):
@@ -24,7 +20,7 @@ class CustomLoginView(LoginView):
 
 
 class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('index')
+    next_page = reverse_lazy('login')
 
 
 class CustomRegistrationView(CreateView):
@@ -33,7 +29,7 @@ class CustomRegistrationView(CreateView):
     form_class = forms.CustomUserRegistrationForm
 
 
-class MainMenuView(ListView):
+class MainMenuView(LoginRequiredMixin, ListView):
     template_name = "main/main_menu.html"
     queryset = models.Well
 
@@ -42,6 +38,10 @@ class MainMenuView(ListView):
             queryset = models.License.objects.all()
         elif self.request.GET.get("target") == "users":
             queryset = models.CustomUser.objects.exclude(is_admin=True).all()
+        elif self.request.GET.get("target") == "documents":
+            queryset = models.Documentation.objects.all()
+        elif self.request.GET.get("target") == "mine":
+            queryset = models.Mine.objects.all()
         else:
             queryset = models.Task.objects.all()
 
@@ -249,7 +249,7 @@ class WellCreateView(CreateView):
 class WellDetailView(DetailView):
     template_name = "main/tasks/wells/index.html"
     model = models.Well
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -327,3 +327,45 @@ class LayerUpdateView(UpdateView):
     def get_success_url(self):
         well_id = self.request.GET.get("well")
         return f"/wells/{well_id}"
+
+
+"""DOCUMENTATION CLASS-BASED VIEWS"""
+class DocumentationCreateView(CreateView):
+    template_name = "main/documents/new.html"
+    model = models.Documentation
+    form_class = forms.DocumentsCreateForm
+    success_url = "/main_menu?target=documents"
+
+
+class DocumentationDetailView(DetailView):
+    template_name = "main/documents/index.html"
+    model = models.Documentation
+    success_url = "/main_menu?target=documents"
+    
+
+class DocumentationUpdateView(UpdateView):
+    template_name = "main/documents/edit.html"
+    model = models.Documentation
+    form_class = forms.DocumentsCreateForm
+    success_url = "/main_menu?target=documents"
+
+
+"""MINE CLASS-BASED VIEWS"""
+class MineCreateView(CreateView):
+    template_name = "main/mine/new.html"
+    model = models.Mine
+    form_class = forms.MineCreateForm
+    success_url = "/main_menu?target=mine"
+
+
+class MineDetailView(DetailView):
+    template_name = "main/mine/index.html"
+    model = models.Mine
+    success_url = "/main_menu?target=mine"
+    
+
+class MineUpdateView(UpdateView):
+    template_name = "main/mine/edit.html"
+    model = models.Mine
+    form_class = forms.MineCreateForm
+    success_url = "/main_menu?target=mine"

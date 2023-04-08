@@ -178,11 +178,17 @@ class Line(models.Model):
 
 
 class Well(models.Model):
-    name = models.CharField("Наименование", max_length=255)
+    name = models.CharField("Наименование", max_length=255, unique=True)
 
     description = models.TextField("Описание", null=True, blank=True)
 
     comment = models.TextField("Комментарий", null=True, blank=True)
+
+    x = models.FloatField("x", null=True, blank=True)
+
+    y = models.FloatField("y", null=True, blank=True)
+
+    z = models.FloatField("z", null=True, blank=True)
 
     line = models.ForeignKey(Line, verbose_name="Линия", on_delete=models.CASCADE, null=True)
 
@@ -196,6 +202,7 @@ class Well(models.Model):
     class Meta:
         verbose_name = "Скважина"
         verbose_name_plural = "Скважины"
+        unique_together = ('name', 'line',)
 
 
 class LayerMaterial(models.Model):
@@ -224,7 +231,7 @@ class Layer(models.Model):
 
     layer_material = models.ForeignKey(LayerMaterial, verbose_name="Материал слоя", on_delete=models.CASCADE)
 
-    responsible = models.ForeignKey(CustomUser, verbose_name="Ответственный", on_delete=models.CASCADE)
+    responsible = models.ForeignKey(CustomUser, verbose_name="Ответственный", on_delete=models.CASCADE, null=True)
 
     sample_obtained = models.BooleanField("Проба взята", default=False)
 
@@ -344,3 +351,48 @@ class WellTask(models.Model):
     task = models.ForeignKey(Task, verbose_name="Задание", on_delete=models.CASCADE)
 
     well = models.ForeignKey(Well, verbose_name="Скважина", on_delete=models.CASCADE)
+
+
+class Documentation(models.Model):
+    license = models.ForeignKey(License, on_delete=models.CASCADE, verbose_name="Лицензия")
+
+    watercourse = models.ForeignKey(WaterCourse, on_delete=models.CASCADE, verbose_name="Водоток")
+
+    line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name="Линия")
+
+    well = models.ForeignKey(Well, on_delete=models.CASCADE, verbose_name="Скважина")
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    def __str__(self):
+        return self.license
+
+    class Meta:
+        verbose_name = "Документация"
+        verbose_name_plural = "Документация"
+
+
+"""скважин может быть несколько"""
+class Mine(models.Model):
+    license = models.ForeignKey(License, on_delete=models.CASCADE, verbose_name="Лицензия")
+
+    watercourse = models.ForeignKey(WaterCourse, on_delete=models.CASCADE, verbose_name="Водоток")
+
+    line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name="Линия")
+
+    well = models.ForeignKey(Well, on_delete=models.CASCADE, verbose_name="Скважина")
+
+    address = models.TextField("Адрес", null=True)
+
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    updated_at = models.DateTimeField("Дата обновления", auto_now=True)
+
+    def __str__(self):
+        return self.license
+
+    class Meta:
+        verbose_name = "Разрез"
+        verbose_name_plural = "Разрезы"

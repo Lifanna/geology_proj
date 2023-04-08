@@ -66,7 +66,7 @@ class TaskUpdateForm(forms.ModelForm):
             'description',
             'license',
             'line',
-            # 'wells',
+            'wells',
             'responsible',
             'status',
             'comment',
@@ -83,7 +83,7 @@ class CustomUserCreateForm(UserCreationForm):
             'first_name',
             'last_name',
             'patronymic',
-            'team',
+            # 'team',
             'phone_number',
             'email',
             'role',
@@ -185,4 +185,27 @@ class LayerUpdateForm(forms.ModelForm):
         model = models.Layer
         fields = (
             'name',
+        )
+
+
+class DocumentsCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.Documentation
+        fields = (
+            'license',
+            'watercourse',
+            'line',
+            'well',
+        )
+
+
+class MineCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.Mine
+        fields = (
+            'license',
+            'watercourse',
+            'line',
+            'well',
+            'address',
         )

@@ -29,7 +29,15 @@
           {% endfor %}
         </td>
         <td>{{ task.responsible|truncatechars:10 }}</td>
-        <td>{{ task.status }}</td>
+        <td>
+          {% if task.status.name == 'не назначено' %}
+            <b class="text-danger">{{ task.status }}</b>
+          {% elif task.status.name == 'выполнено' %}
+            <b class="text-success">{{ task.status }}</b>
+          {% else %}
+            <b class="">{{ task.status }}</b>
+          {% endif %}
+        </td>
       </tr>
     {% endfor %}
   </tbody>

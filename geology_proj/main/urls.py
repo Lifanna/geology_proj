@@ -19,6 +19,10 @@ from . import views
 from main.api import api_views
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 
 urlpatterns = [
@@ -65,6 +69,26 @@ urlpatterns = [
     path('layers/add', views.LayerCreateView.as_view(), name='layers_add'),
     path('layers/<int:pk>', views.LayerDetailView.as_view(), name='layers_detail'),
     path('layers/edit/<int:pk>', views.LayerUpdateView.as_view(), name='layers_edit'),
+
+    # api urls
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/tasks/', api_views.TaskListView.as_view(), name='task_list'),
+    path('api/layer/add', api_views.LayerCreateAPIView.as_view(), name='layer_add'),
+    path('api/well/add', api_views.WellCreateAPIView.as_view(), name='well_add'),
+
+    path('api/layer_materials/', api_views.LayerMaterialsListAPIView.as_view(), name='layer_materials_list'),
+    path('api/synchronize/', api_views.SyncronizeViewSet.as_view({'post': 'create'}), name='synchronize'),
+
+    # documentation urls
+    path('documents/add', views.DocumentationCreateView.as_view(), name='layers_add'),
+    path('documents/<int:pk>', views.DocumentationDetailView.as_view(), name='documentation_detail'),
+    path('documents/edit/<int:pk>', views.DocumentationUpdateView.as_view(), name='documentation_edit'),
+
+    path('mine/add', views.MineCreateView.as_view(), name='mine_edit'),
+    path('mine/<int:pk>', views.MineDetailView.as_view(), name='mineetail'),
+    path('mine/edit/<int:pk>', views.MineUpdateView.as_view(), name='mine_edit'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
