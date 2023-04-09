@@ -32,6 +32,8 @@
         <td>
           {% if task.status.name == 'не назначено' %}
             <b class="text-danger">{{ task.status }}</b>
+          {% elif task.status.name == 'на выполнении' %}
+            <b class="text-warning">{{ task.status }}</b>
           {% elif task.status.name == 'выполнено' %}
             <b class="text-success">{{ task.status }}</b>
           {% else %}

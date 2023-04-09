@@ -24,7 +24,7 @@ class TaskListView(ListAPIView):
     # permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        queryset = self.serializer_class.Meta.model.objects.filter(responsible__id=1).all()
+        queryset = self.serializer_class.Meta.model.objects.filter(responsible__id=1, status__name="на выполнении").all()
 
         serializer = serializers.TaskSerializer(queryset, many=True)
 
@@ -65,7 +65,7 @@ class SyncronizeViewSet(ViewSet):
 
         for task in post_data.get('tasks'):
             existing_task = models.Task.objects.get(pk=task.get('id'))
-            existing_task.status = models.TaskStatus.objects.get(pk=task.get('status_id'))
+            existing_task.status = models.TaskStatus.objects.get(name=task.get('status_name'))
 
             existing_task.save()
 
@@ -74,8 +74,8 @@ class SyncronizeViewSet(ViewSet):
             well_object.description = well.get('description')
             well_object.comment = well.get('comment')
             well_object.line = models.Line.objects.get(pk=well.get('line_id'))
-            well_object.created_at = well.get('created_at')
-            well_object.updated_at = well.get('updated_at')
+            # well_object.created_at = well.get('created_at')
+            # well_object.updated_at = well.get('updated_at')
 
             well_object.save()
 
@@ -96,8 +96,8 @@ class SyncronizeViewSet(ViewSet):
             layer_object.sample_obtained = layer.get('sample_obtained')
             layer_object.drilling_stopped = layer.get('drilling_stopped')
             layer_object.aquifer = layer.get('aquifer')
-            layer_object.created_at = layer.get('created_at')
-            layer_object.updated_at = layer.get('updated_at')
+            # layer_object.created_at = layer.get('created_at')
+            # layer_object.updated_at = layer.get('updated_at')
 
             layer_object.save()
 
