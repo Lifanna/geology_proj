@@ -60,7 +60,7 @@ urlpatterns = [
     path('objects/set_lines/<int:pk>', views.LineLicenseWaterCourseCreateView.as_view(), name='line_license_watercourse_add'),
 
     # wells urls
-    path('wells/add/<int:task_id>', views.WellCreateView.as_view(), name='wells_add'),
+    path('wells/add', views.WellCreateView.as_view(), name='wells_add'),
     path('wells/<int:pk>', views.WellDetailView.as_view(), name='wells_detail'),
     path('wells/edit/<int:pk>', views.WellEditView.as_view(), name='wells_edit'),
     path('wells/set_welltasks/<int:pk>', views.WellTaskCreateView.as_view(), name='wells_task_add'),
