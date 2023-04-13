@@ -12,7 +12,7 @@ class CustomUserRegistrationForm(UserCreationForm):
 
 """OBJECTS FORMS"""
 class ObjectCreateForm(forms.ModelForm):
-    used_enginery = forms.CharField(label="Используемая техника", required=False)
+    used_enginery = forms.CharField(label="Используемая техника", required=False, widget=forms.Textarea)
 
     mbu = forms.ModelChoiceField(label="МБУ", queryset=models.CustomUser.objects.all(), required=False)
 
@@ -37,19 +37,27 @@ class LineLicenseWaterCourseCreateForm(forms.ModelForm):
 
 
 class ObjectUpdateForm(forms.ModelForm):
+    used_enginery = forms.CharField(label="Используемая техника", required=False, widget=forms.Textarea)
+
+    mbu = forms.ModelChoiceField(label="МБУ", queryset=models.CustomUser.objects.all(), required=False)
+
+    pmbou = forms.ModelChoiceField(label="ПМБУ", queryset=models.CustomUser.objects.all(), required=False)
+
     class Meta:
         model = models.License
-        fields = (
-            'short_name',
-            'name',
-            'geologist',
-            'status',
-            'used_enginery',
-            'mbu',
-            'pmbou',
-            # 'watercourses',
-            'comment',
-        )
+        # fields = (
+        #     'short_name',
+        #     'name',
+        #     'geologist',
+        #     'status',
+        #     'used_enginery',
+        #     'mbu',
+        #     'pmbou',
+        #     # 'watercourses',
+        #     'comment',
+        # )
+        fields = '__all__'
+        exclude = ('watercourses', 'lines',)
     
     # watercourses = forms.ModelMultipleChoiceField(
     #     queryset=models.WaterCourse.objects.all(),
