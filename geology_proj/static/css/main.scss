@@ -264,3 +264,21 @@ a.list-group-item-action.active {
 	background-color: #DAA520;
 	border-color: #DAA520;;
 }
+
+// .pillar-photo {
+//     -webkit-transform: rotate(90deg);  /* to support Safari and Android browser */
+//     -ms-transform: rotate(90deg);      /* to support IE 9 */
+//     transform: rotate(90deg);
+// }
+
+.image-container {
+    text-align: center;
+    width: 100%;
+    overflow: hidden; /* Prevent overflowing of nested elements */
+}
+
+.pillar-photo {
+    display: block;
+    transform: rotate(90deg);
+    margin: 50px auto; /* account for 100px width/height difference */
+}

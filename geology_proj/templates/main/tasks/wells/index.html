@@ -8,7 +8,6 @@
                     <a href="/wells/edit/{{ object.id }}" class="ml-3 btn btn-outline-success">Редактировать</a>
                     <h2>{{ object.name }}</h2>
                 </div>
-
                 <div class="form-group">
                     <label for="description" class="font-weight-bold">Описание</label>
                     <textarea type="text" class="form-control" readonly id="description" rows="7">{{ object.description }}</textarea>
@@ -24,6 +23,12 @@
                 <div class="form-group">
                     <label for="line" class="font-weight-bold">Линия</label>
                     <input type="text" class="form-control" readonly id="line" value="{{ object.line }}">
+                </div>
+                <div class="form-group">
+                    <label for="pillarPhoto" class="font-weight-bold">Фото штаги</label>
+                    <div class="image-container">
+                        <img src="/media/{{object.pillar_photo}}" class="img-fluid pillar-photo">
+                    </div>
                 </div>
                 {{object.layers}}
                 <div class="form-group">

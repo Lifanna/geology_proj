@@ -192,6 +192,8 @@ class Well(models.Model):
 
     line = models.ForeignKey(Line, verbose_name="Линия", on_delete=models.CASCADE, null=True)
 
+    pillar_photo = models.ImageField("Фото штаги", upload_to='images/', null=True)
+
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 
     updated_at = models.DateTimeField("Дата обновления", auto_now=True)
