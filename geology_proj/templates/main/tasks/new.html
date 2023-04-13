@@ -13,14 +13,14 @@
                 {% endfor %}
                 {% for field in form.visible_fields %}
                     {% if field.name == "wells" %}
-                        <div class="form-group">
+                        {% comment %} <div class="form-group">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             {% render_field field class="form-control" placeholder=field.label %}
                             {% for error in field.errors %}
                             <span class="help-block">{{ error }}</span>
                             {% endfor %}
                             <a href="/wells/add" class="btn btn-secondary mt-2">Добавить скважину</a>
-                        </div>
+                        </div> {% endcomment %}
                     {% else %}
                         <div class="form-group">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
