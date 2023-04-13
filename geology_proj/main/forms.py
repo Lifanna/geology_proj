@@ -12,6 +12,12 @@ class CustomUserRegistrationForm(UserCreationForm):
 
 """OBJECTS FORMS"""
 class ObjectCreateForm(forms.ModelForm):
+    used_enginery = forms.CharField(label="Используемая техника", required=False)
+
+    mbu = forms.ModelChoiceField(label="МБУ", queryset=models.CustomUser.objects.all(), required=False)
+
+    pmbou = forms.ModelChoiceField(label="ПМБУ", queryset=models.CustomUser.objects.all(), required=False)
+
     class Meta:
         model = models.License
         fields = '__all__'
@@ -153,6 +159,7 @@ class WellCreateForm(forms.ModelForm):
     class Meta:
         model = models.Well
         fields = '__all__'
+        exclude = ('pillar_photo',)
 
 
 class WellUpdateForm(forms.ModelForm):

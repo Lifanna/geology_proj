@@ -198,7 +198,7 @@ class LicenseWaterCourseCreateView(CreateView):
         license_id = self.kwargs.get("pk")
 
         context['license_id'] = license_id
-        context['license_name'] = models.License.objects.get(pk=license_id).name
+        context['license_name'] = models.License.objects.get(pk=license_id).short_name
 
         return context
 
@@ -244,6 +244,21 @@ class WellCreateView(CreateView):
     model = models.Well
     form_class = forms.WellCreateForm
     success_url = "/main_menu?target=tasks"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("license_id")
+
+        context['license_id'] = license_id
+
+        return context
+
+    def get_success_url(self):
+        license_id = self.kwargs.get("license_id")
+        success_url = f"/objects/set_watercourses/{license_id}"
+
+        return success_url
 
 
 class WellDetailView(DetailView):

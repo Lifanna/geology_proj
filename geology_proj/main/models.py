@@ -104,6 +104,9 @@ class CustomUser(AbstractBaseUser):
     REQUIRED_FIELDS = ['password']
 
     def __str__(self):
+        return self.last_name + " " + self.first_name
+
+    def model_str(self):
         return self.username
 
     def has_perm(self, perm, obj=None):
@@ -298,7 +301,7 @@ class LicenseWaterCourse(models.Model):
 
     parent_watercourse = models.ForeignKey(WaterCourse, on_delete=models.SET_NULL, null=True, verbose_name="Главный водоток", related_name="parent_watercourse")
 
-    is_primary = models.IntegerField(default=WaterCourseType.PRIMARY, choices=WaterCourseType.choices)
+    is_primary = models.IntegerField(verbose_name="Тип водотока (главный - да)", default=WaterCourseType.PRIMARY, choices=WaterCourseType.choices)
 
 
 class LineLicenseWaterCourse(models.Model):
