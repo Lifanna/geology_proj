@@ -56,7 +56,7 @@ urlpatterns = [
 
     # watercourses urls
     # запилить CRUD для линий
-    path('lines/add', views.LineCreateView.as_view(), name='lines_add'),
+    path('lines/add/<int:license_id>', views.LineCreateView.as_view(), name='lines_add'),
     path('objects/set_lines/<int:pk>', views.LineLicenseWaterCourseCreateView.as_view(), name='line_license_watercourse_add'),
 
     # wells urls
