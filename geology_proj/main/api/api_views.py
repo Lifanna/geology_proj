@@ -24,10 +24,11 @@ class WaterCourseChildrenDetailView(ListAPIView):
 class TaskListView(ListAPIView):
     serializer_class = serializers.TaskSerializer
     model = serializer_class.Meta.model
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        queryset = self.serializer_class.Meta.model.objects.filter(responsible__id=1, status__name="на выполнении").all()
+        print("DDDD:", request.user.id)
+        queryset = self.serializer_class.Meta.model.objects.filter(responsible__id=request.user.id, status__name="на выполнении").all()
 
         serializer = serializers.TaskSerializer(queryset, many=True)
 
