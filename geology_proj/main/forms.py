@@ -70,6 +70,7 @@ class TaskCreateForm(forms.ModelForm):
     class Meta:
         model = models.Task
         fields = '__all__'
+        exclude = ('wells',)
 
 
 class TaskUpdateForm(forms.ModelForm):
