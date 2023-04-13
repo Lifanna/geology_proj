@@ -199,6 +199,7 @@ class LicenseWaterCourseCreateView(CreateView):
 
         context['license_id'] = license_id
         context['license_name'] = models.License.objects.get(pk=license_id).short_name
+        
 
         return context
 
