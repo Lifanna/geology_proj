@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="col-md-12 col-lg-12 justify-content-center">
+      <div class="wrapper">
+          <div id="formContent">
+            <div class="first">
+              <i class="fas fa-unlock-alt m-4" style="font-size: 60px;"></i>
+            </div>
+
+            <form method="POST">
+              {% csrf_token %}
+              {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="text-danger">{{ error|escape }}</div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="text-danger">{{ error|escape }}</div>
+                {% endfor %}
+              {% endif %}
+              <input type="text" id="login" class="second login-input" name="username" placeholder="Логин">
+              <input type="password" id="password" class="third login-input" name="password" placeholder="Пароль">
+              <input type="submit" class="fourth m-2 btn-login" value="Войти">
+            </form>
+        
+            <div id="formFooter">
+              <a class="underlineHover" href="#">Забыли пароль?</a>
+            </div>
+          </div>
+      </div>
+    </div>
+{% endblock %}

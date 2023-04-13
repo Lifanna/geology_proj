@@ -1,0 +1,46 @@
+{% block content %}
+  <thead class="bg-navbar-main">
+    <tr>
+      <th scope="col">№</th>
+      <th class="w-25" scope="col">Задание <a href="/tasks/add" class="ml-4 text-dark"><i class="fas fa-plus"></i></a></th>
+      <th scope="col">Лицензия</th>
+      <th scope="col">Водоток</th>
+      <th scope="col">Линия</th>
+      <th scope="col">Скважина</th>
+      <th scope="col">Ответственный</th>
+      <th scope="col">Статус</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in object_list %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="/tasks/{{ task.id }}" class="text-dark">{{ task.short_name }}</a></td>
+        <td>{{ task.license.name|truncatechars:10 }}</td>
+        <td>
+          {% for watercourse in task.license.watercourses.all %}
+            {{ watercourse }},
+          {% endfor %}
+        </td>
+        <td>{{ task.line }}</td>
+        <td>
+          {% for well in task.wells.all %}
+            {{ well }},
+          {% endfor %}
+        </td>
+        <td>{{ task.responsible|truncatechars:10 }}</td>
+        <td>
+          {% if task.status.name == 'не назначено' %}
+            <b class="text-danger">{{ task.status }}</b>
+          {% elif task.status.name == 'на выполнении' %}
+            <b class="text-warning">{{ task.status }}</b>
+          {% elif task.status.name == 'выполнено' %}
+            <b class="text-success">{{ task.status }}</b>
+          {% else %}
+            <b class="">{{ task.status }}</b>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %}

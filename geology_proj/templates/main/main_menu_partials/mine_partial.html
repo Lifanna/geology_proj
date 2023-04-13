@@ -1,0 +1,24 @@
+{% block content %}
+  <thead class="bg-navbar-main">
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Лицензия <a href="/mine/add" class="ml-4 text-dark"><i class="fas fa-plus"></i></a></th>
+      <th scope="col">Водоток</th>
+      <th scope="col">Линия</th>
+      <th scope="col">Скважина</th>
+      <th scope="col">Адрес <a href="#" class="ml-4 text-dark"><i class="fa fa-sliders-h" aria-hidden="true"></i></a></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mine in object_list %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="/mine/{{ mine.id }}" class="text-dark">{{ mine.license }}</a></td>
+        <td>{{ mine.watercourse }}</td>
+        <td>{{ mine.line }}</td>
+        <td>{{ mine.well }}</td>
+        <td>{{ mine.address }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load widget_tweaks %}
+    <div class="col-12">
+        <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>{{ object.short_name }}</h2>
+            <form method="post">
+                {% csrf_token %}
+
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                <div class="form-group">
+                    <label for="">Водотоки</label>
+                    {% comment %} {% render_field field class="form-control" placeholder=field.label %}
+                    {% for error in field.errors %}
+                        <span class="help-block text-danger">{{ error }}</span>
+                    {% endfor %} {% endcomment %}
+                    <div class="card card-body" style="overflow-y: scroll; height:200px;">
+                        {% for watercourse in watercourses %}
+                            {% if watercourse.is_primary == 0 %}
+                                <p>{{ watercourse.watercourse.name }} <span class="text-success">Главный</span></p>
+                            {% else %}
+                                <p>
+                                    {{ watercourse.watercourse.name }} 
+                                    <span class="text-secondary">Побочный</span> 
+                                    {% if watercourse.parent_watercourse %}
+                                        ({{ watercourse.parent_watercourse.name }})
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <a href="/objects/set_watercourses/{{ object.id }}" class="btn btn-secondary mt-2">Назначить водотоки</a>
+                </div>
+                <div class="form-group">
+                    <label for="">Линии</label>
+                    <div class="card card-body" style="overflow-y: scroll; height:200px;">
+                        {% for line in lines %}
+                            <p>{{line.line.name}} ({{line.watercourse.name}})</p>
+                        {% endfor %}
+                    </div>
+                    <a href="/objects/set_lines/{{ object.id }}" class="btn btn-secondary mt-2">Назначить линии</a>
+                </div>
+                {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% render_field field class="form-control" placeholder=field.label %}
+                        {% for error in field.errors %}
+                            <span class="help-block text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span> Сохранить
+                    </button>
+                    <a href="/main_menu?target=objects" class="btn btn-default">Назад</a>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    {% comment %} <script src="/static/js/watercourses.js"></script> {% endcomment %}
+{% endblock %}

@@ -12,47 +12,30 @@
         <link rel="stylesheet" href="/static/css/main.scss" />
     </head>
     <body>
-      <nav class="navbar navbar-expand-md navbar-light bg-navbar-main sticky-top">
-        <a class="navbar-brand d-block d-md-none d-lg-block" href="/"></a>
+      <nav class="navbar navbar-expand-md navbar-light bg-navbar-main">
+        <a href="/" class="navbar-brand"><img class="img-fluid w-25" src="/static/images/navbar_brand.png"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="container-fluid">
           <div class="row ff-roundfit-l-e collapse navbar-collapse" id="navbarTogglerDemo02">
-            <div class="col-12 col-xl-8">
-              <ul class="navbar-nav mr-auto mt-2 ml-3 ml-md-0 mt-lg-0 justify-content-center">
-                <li class="nav-item">
-                  <a class="nav-link hover-purple h4" href="#">О нас<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link hover-purple h4" href="#">Каталог</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link hover-purple h4" href="/delivery">Доставка</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link hover-purple h4" href="/loyalty">Программа лояльности</a>
-                </li>
-              </ul>
+            <div class="col-12 col-lg-10 text-center mt-3">
+              <h1>Автоматизированное рабочее место "Геолог"</h1>
             </div>
-            <div class="col-12 col-xl-4">
+            <div class="col-12 col-xl-2">
               <ul class="navbar-nav mr-auto mt-2 ml-3 ml-md-0 mt-lg-0 justify-content-center">
                 {% if request.user.is_authenticated %}
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fa fa-user bg-pink-link" aria-hidden="true" style="font-size: 24px;"></i>
+                    <a class="text-dark" href="/logout">
+                      <i class="fas fa-sign-out-alt" style="font-size: 24px;"></i>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Мой профиль</a>
-                      <a class="dropdown-item" href="/logout"><i class='fas fa-sign-out-alt'></i> Выйти</a>
-                    </div>
                   </li>
                 {% else %}
                   <li class="nav-item m-lg-0">
-                    <a class="nav-link btn text-forest-green text-white mx-2 my-2 my-md-0 px-3 py-2 br-10 ff-ltreponse font-weight-bold btn-lg" href="/login">Войти</a>
+                    <a class="nav-link btn btn-lg" href="/login/">Войти</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link btn text-registration text-white mx-2 my-2 my-md-0 px-3 py-2 br-10 ff-ltreponse font-weight-bold btn-lg" href="/registration">Регистрация</a>
+                    <a class="nav-link btn btn-lg" href="/registration/">Регистрация</a>
                   </li>
                 {% endif %}
               </ul>
@@ -66,7 +49,7 @@
       <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=0acd54d3-55e5-4e3c-8508-3030babd03a4" type="text/javascript"></script>
       <script src="/static/js/main.js"></script>
 
-      <div class="container-fluid ml-mr-main mt-4">
+      <div class="container mt-4">
           <div class="row">
               {% block content %}{% endblock %}
           </div>
