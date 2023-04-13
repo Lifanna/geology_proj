@@ -4,6 +4,9 @@ from main.api import serializers
 from main import models
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from main.api import image_decoder
+import io
 
 
 class WaterCourseChildrenDetailView(ListAPIView):
@@ -61,7 +64,7 @@ class SyncronizeViewSet(ViewSet):
         success = False
         post_data = request.data
 
-        print("EEEEEEE: ", post_data)
+        print("EEEEEEE: ", post_data.get('tasks'))
 
         for task in post_data.get('tasks'):
             existing_task = models.Task.objects.get(pk=task.get('id'))
@@ -76,6 +79,12 @@ class SyncronizeViewSet(ViewSet):
             well_object.line = models.Line.objects.get(pk=well.get('line_id'))
             # well_object.created_at = well.get('created_at')
             # well_object.updated_at = well.get('updated_at')
+
+            img = image_decoder.decode_design_image(well.get('pillar_photo_file'))
+            img_io = io.BytesIO()
+            img.save(img_io, format='JPEG')
+            photo_unique_name = well.get('name') + "_" + str(well.get('line_id'))
+            well_object.pillar_photo = InMemoryUploadedFile(img_io, field_name=None, name=photo_unique_name + ".jpg", content_type='image/jpeg', size=img_io.tell, charset=None)
 
             well_object.save()
 
