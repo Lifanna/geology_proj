@@ -20,7 +20,7 @@ class CustomUserAdmin(UserAdmin):
         ('Important dates', {'fields': ('last_login',)}),
     )
 
-    list_display = ('__str__', 'email')
+    list_display = ('model_str', 'email')
 
     list_filter = ('email', 'first_name', 'last_name',)
 

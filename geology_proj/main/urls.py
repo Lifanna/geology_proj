@@ -50,7 +50,7 @@ urlpatterns = [
     path('users/edit/password/<int:pk>', views.CustomUserPasswordChangeView.as_view(), name='users_change_password'),
 
     # watercourses urls
-    path('watercourses/add', views.WaterCourseCreateView.as_view(), name='watercourses_add'),
+    path('watercourses/add/<int:license_id>', views.WaterCourseCreateView.as_view(), name='watercourses_add'),
     path('watercourses/children/<int:pk>', api_views.WaterCourseChildrenDetailView.as_view(), name='watercourse_children'),
     path('objects/set_watercourses/<int:pk>', views.LicenseWaterCourseCreateView.as_view(), name='license_watercourse_add'),
 
