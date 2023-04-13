@@ -183,7 +183,6 @@ class WaterCourseCreateView(CreateView):
     template_name = "main/objects/watercourses/new.html"
     model = models.WaterCourse
     form_class = forms.WaterCourseCreateForm
-    success_url = "/main_menu?target=objects"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -228,7 +227,20 @@ class LineCreateView(CreateView):
     template_name = "main/objects/lines/new.html"
     model = models.Line
     form_class = forms.LineCreateForm
-    success_url = "/main_menu?target=objects"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("license_id")
+
+        context['license_id'] = license_id
+
+        return context
+
+    def get_success_url(self):
+        success_url = f"/objects/edit/{self.kwargs.get('license_id')}"
+
+        return success_url
 
 
 class LineLicenseWaterCourseCreateView(CreateView):
