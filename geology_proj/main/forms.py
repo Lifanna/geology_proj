@@ -27,13 +27,22 @@ class ObjectCreateForm(forms.ModelForm):
 class LicenseWaterCourseCreateForm(forms.ModelForm):
     class Meta:
         model = models.LicenseWaterCourse
+        fields = ('is_primary', 'watercourse', 'parent_watercourse',)
+
+
+class LicenseWaterCourseRemoveForm(forms.ModelForm):
+    watercourse = forms.MultipleChoiceField()
+
+    class Meta:
+        model = models.LicenseWaterCourse
         fields = '__all__'
+
 
 
 class LineLicenseWaterCourseCreateForm(forms.ModelForm):
     class Meta:
         model = models.LineLicenseWaterCourse
-        fields = '__all__'
+        fields = ('watercourse', 'line', 'license',)
 
 
 class ObjectUpdateForm(forms.ModelForm):

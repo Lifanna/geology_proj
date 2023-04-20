@@ -16,7 +16,7 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td><a href="/tasks/{{ task.id }}" class="text-dark">{{ task.short_name }}</a></td>
-        <td>{{ task.license.name|truncatechars:10 }}</td>
+        <td>{{ task.license.short_name|truncatechars:10 }}</td>
         <td>
           {% for watercourse in task.license.watercourses.all %}
             {{ watercourse }},

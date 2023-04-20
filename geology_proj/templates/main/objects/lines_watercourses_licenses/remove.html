@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load widget_tweaks %}
+    <div class="col-12">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2>Удаление линий для {{ license_name }}</h2>
+                {% for line_license_watercourse in object_list %}
+                    <form method="post" action="/objects/unset_line/{{ license_id }}/{{ line_license_watercourse.id }}">
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="col">
+                                <p>{{ line_license_watercourse.watercourse.name }}</p>
+                                <p>{{ line_license_watercourse.line.name }}</p>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-ok"></span> Удалить
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+                <a href="{{request.META.HTTP_REFERER}}" class="btn btn-default">Назад</a>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/watercourses.js"></script>
+{% endblock %}

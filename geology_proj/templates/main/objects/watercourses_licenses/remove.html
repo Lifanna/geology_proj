@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load widget_tweaks %}
+    <div class="col-12">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2>Удаление главных и побочных водотоков для {{ license_name }}</h2>
+                {% for license_watercourse in object_list %}
+                    <form method="post" action="/objects/unset_watercourse/{{ license_id }}/{{ license_watercourse.id }}">
+                        {% csrf_token %}
+
+                        <div class="form-row">
+                            <div class="col">
+                                {% if license_watercourse.is_primary == 0 %}
+                                    <p>{{ license_watercourse.watercourse.name }} <span class="text-success">Главный</span></p>
+                                {% else %}
+                                    <p>
+                                        {{ license_watercourse.watercourse.name }} 
+                                        <span class="text-secondary">Побочный</span> 
+                                        {% if license_watercourse.parent_watercourse %}
+                                            ({{ license_watercourse.parent_watercourse.name }})
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-ok"></span> Удалить
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+                <a href="{{request.META.HTTP_REFERER}}" class="btn btn-default">Назад</a>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/watercourses.js"></script>
+{% endblock %}

@@ -3,44 +3,45 @@
 {% load widget_tweaks %}
     <div class="col-12">
         <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>Назначение линий для {{ license_name }}</h2>
-            <form method="post">
-                {% csrf_token %}
+            <div class="col-md-6">
+                <h2>Назначение линий для {{ license_name }}</h2>
+                <form method="post">
+                    {% csrf_token %}
 
-                <div class="form-group">
-                    <a href="/lines/add/{{ license_id }}" class="btn btn-secondary mt-2">Добавить линию</a>
-                </div>
+                    <div class="form-group">
+                        <a href="/lines/add/{{ license_id }}" class="btn btn-secondary mt-2">Добавить линию</a>
+                    </div>
 
-                {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
-                    {% if field.name == 'license' %}
-                        <div class="form-group">
-                            <input type="hidden" name="license" value="{{ license_id }}">
-                            {% for error in field.errors %}
-                                <span class="help-block text-danger">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {% render_field field class="form-control" placeholder=field.label %}
-                            {% for error in field.errors %}
-                                <span class="help-block text-danger">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-ok"></span> Сохранить
-                    </button>
-                    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-default">Назад</a>
-                </div>
-            </form>
-        </div>
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        {% if field.name == 'license' %}
+                            <div class="form-group">
+                                <input type="hidden" name="license" value="{{ license_id }}">
+                                {% for error in field.errors %}
+                                    <span class="help-block text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% render_field field class="form-control" placeholder=field.label %}
+                                {% for error in field.errors %}
+                                    <span class="help-block text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok"></span> Сохранить
+                        </button>
+                        <a href="{{request.META.HTTP_REFERER}}" class="btn btn-default">Назад</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+    <script src="/static/js/watercourses.js"></script>
 {% endblock %}

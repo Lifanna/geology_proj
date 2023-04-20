@@ -33,6 +33,7 @@
                         {% endfor %}
                     </div>
                     <a href="/objects/set_watercourses/{{ object.id }}" class="btn btn-secondary mt-2">Назначить водотоки</a>
+                    <a href="/objects/unset_watercourses/{{ object.id }}" class="btn btn-secondary mt-2">Убрать водотоки</a>
                 </div>
                 <div class="form-group">
                     <label for="">Линии</label>
@@ -42,6 +43,8 @@
                         {% endfor %}
                     </div>
                     <a href="/objects/set_lines/{{ object.id }}" class="btn btn-secondary mt-2">Назначить линии</a>
+                    <a href="/objects/unset_lines/{{ object.id }}" class="btn btn-secondary mt-2">Убрать линии</a>
+
                 </div>
                 {% for field in form.visible_fields %}
                     <div class="form-group">

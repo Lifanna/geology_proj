@@ -2,7 +2,7 @@ from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.viewsets import ViewSet
 from main.api import serializers
 from main import models
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from main.api import image_decoder
@@ -24,7 +24,7 @@ class WaterCourseChildrenDetailView(ListAPIView):
 class TaskListView(ListAPIView):
     serializer_class = serializers.TaskSerializer
     model = serializer_class.Meta.model
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,]
 
     def list(self, request):
         print("DDDD:", request.user.id)
@@ -38,19 +38,19 @@ class TaskListView(ListAPIView):
 class LayerCreateAPIView(CreateAPIView, ListAPIView):
     queryset = models.Layer.objects.all()
     serializer_class = serializers.LayerSerializer
-    # permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated,]
 
 
 class WellCreateAPIView(CreateAPIView, ListAPIView):
     queryset = models.Well.objects.all()
     serializer_class = serializers.WellSerializer
-    # permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated,]
 
 
 class LayerMaterialsListAPIView(ListAPIView):
     serializer_class = serializers.LayerMaterialSerializer
     model = serializer_class.Meta.model
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,]
 
     def list(self, request):
         queryset = self.serializer_class.Meta.model.objects.all()
@@ -124,3 +124,16 @@ class SyncronizeViewSet(ViewSet):
             success = True
 
         return Response(data={"status": success})
+
+
+class LineListAPIView(ListAPIView):
+    serializer_class = serializers.LineSerializer
+    model = serializer_class.Meta.model
+    permission_classes = [AllowAny,]
+
+    def list(self, request, watercourse_id):
+        queryset = self.serializer_class.Meta.model.objects.filter(watercourse__id=watercourse_id).all()
+
+        serializer = self.serializer_class(queryset, many=True)
+
+        return Response(serializer.data)

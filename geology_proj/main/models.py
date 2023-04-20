@@ -172,6 +172,8 @@ class WaterCourse(models.Model):
 class Line(models.Model):
     name = models.CharField("Наименование", max_length=50)
 
+    watercourse = models.ForeignKey(WaterCourse, on_delete=models.CASCADE, verbose_name="Водоток", null=True)
+
     def __str__(self):
         return self.name
 
@@ -210,8 +212,29 @@ class Well(models.Model):
         unique_together = ('name', 'line',)
 
 
+class MaterialCategory(models.Model):
+    name = models.CharField("Наименование", max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Вид материала слоя (интервала)"
+        verbose_name_plural = "Виды материалов слоев (интервалов)"
+
+
 class LayerMaterial(models.Model):
     name = models.CharField("Наименование", max_length=255)
+
+    material_category = models.ForeignKey(MaterialCategory, on_delete=models.CASCADE, verbose_name="Вид материала", null=True)
+
+    short_name = models.CharField("Краткое наименование", max_length=255, null=True)
+
+    color = models.CharField("Цвет", max_length=255, null=True)
+
+    synonym = models.CharField("Синоним", max_length=255, null=True)
+
+    image = models.ImageField("Изображение", upload_to='layer_materials_images/', null=True)
 
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 
@@ -267,9 +290,9 @@ class License(models.Model):
 
     used_enginery = models.TextField("Используемая техника", null=True, default="Не назначено")
 
-    mbu = models.ForeignKey(CustomUser, related_name='mbu_id', on_delete=models.SET_NULL, verbose_name="МБУ", null=True)
+    # mbu = models.ForeignKey(CustomUser, related_name='mbu_id', on_delete=models.SET_NULL, verbose_name="МБУ", null=True)
 
-    pmbou = models.ForeignKey(CustomUser, related_name='pmbou_id', on_delete=models.SET_NULL, verbose_name="ПМБУ", null=True)
+    # pmbou = models.ForeignKey(CustomUser, related_name='pmbou_id', on_delete=models.SET_NULL, verbose_name="ПМБУ", null=True)
 
     watercourses = models.ManyToManyField(WaterCourse, through='LicenseWaterCourse', through_fields=('license', 'watercourse'), verbose_name="Водотоки", blank=True)
 
@@ -303,13 +326,16 @@ class LicenseWaterCourse(models.Model):
 
     is_primary = models.IntegerField(verbose_name="Тип водотока (главный - да)", default=WaterCourseType.PRIMARY, choices=WaterCourseType.choices)
 
+    def __str__(self):
+        return self.watercourse.name + " - " + self.license.short_name
+
 
 class LineLicenseWaterCourse(models.Model):
     line = models.ForeignKey(Line, on_delete=models.SET_NULL, null=True, verbose_name="Линия")
 
-    license = models.ForeignKey(License, on_delete=models.CASCADE, verbose_name="Лицензия")
-
     watercourse = models.ForeignKey(WaterCourse, on_delete=models.SET_NULL, null=True, verbose_name="Водоток")
+
+    license = models.ForeignKey(License, on_delete=models.CASCADE, verbose_name="Лицензия")
 
 
 class TaskStatus(models.Model):

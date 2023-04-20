@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from main import models, forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -213,11 +213,53 @@ class LicenseWaterCourseCreateView(CreateView):
         context['license_id'] = license_id
         context['license_name'] = models.License.objects.get(pk=license_id).short_name
 
+        return context
+
+    def get_success_url(self):
+        success_url = f"/objects/edit/{self.kwargs.get('pk')}"
+
+        return success_url
+
+
+class LicenseWaterCourseRemoveListView(ListView):
+    template_name = "main/objects/watercourses_licenses/remove.html"
+    model = models.LicenseWaterCourse
+    # success_url = "/main_menu?target=users"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("pk")
+
+        context['license_id'] = license_id
+        context['license_name'] = models.License.objects.get(pk=license_id).short_name
+        context['object_list'] = models.LicenseWaterCourse.objects.filter(license=self.kwargs.get("pk"))
 
         return context
 
     def get_success_url(self):
         success_url = f"/objects/edit/{self.kwargs.get('pk')}"
+
+        return success_url
+
+
+class LicenseWaterCourseRemoveView(DeleteView):
+    template_name = "main/objects/watercourses_licenses/remove.html"
+    model = models.LicenseWaterCourse
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("pk")
+
+        context['license_id'] = license_id
+        context['license_name'] = models.License.objects.get(pk=license_id).short_name
+        context['object_list'] = models.LicenseWaterCourse.objects.filter(license=self.kwargs.get("pk"))
+
+        return context
+
+    def get_success_url(self):
+        success_url = f"/objects/edit/{self.kwargs.get('license_id')}"
 
         return success_url
 
@@ -255,12 +297,55 @@ class LineLicenseWaterCourseCreateView(CreateView):
         license_id = self.kwargs.get("pk")
 
         context['license_id'] = license_id
-        context['license_name'] = models.License.objects.get(pk=license_id).name
+        context['license_name'] = models.License.objects.get(pk=license_id).short_name
 
         return context
 
     def get_success_url(self):
         success_url = f"/objects/edit/{self.kwargs.get('pk')}"
+
+        return success_url
+
+
+class LineLicenseWaterCourseRemoveListView(ListView):
+    template_name = "main/objects/lines_watercourses_licenses/remove.html"
+    model = models.LineLicenseWaterCourse
+    form_class = forms.LineLicenseWaterCourseCreateForm
+    # success_url = "/main_menu?target=users"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("pk")
+
+        context['license_id'] = license_id
+        context['license_name'] = models.License.objects.get(pk=license_id).short_name
+        context['object_list'] = models.LineLicenseWaterCourse.objects.filter(license=self.kwargs.get("pk"))
+
+        return context
+
+    def get_success_url(self):
+        success_url = f"/objects/edit/{self.kwargs.get('pk')}"
+
+        return success_url
+
+
+class LineLicenseWaterCourseRemoveView(DeleteView):
+    template_name = "main/objects/lines_watercourses_licenses/remove.html"
+    model = models.LineLicenseWaterCourse
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        license_id = self.kwargs.get("pk")
+
+        context['license_id'] = license_id
+        context['license_name'] = models.License.objects.get(pk=license_id).short_name
+
+        return context
+
+    def get_success_url(self):
+        success_url = f"/objects/edit/{self.kwargs.get('license_id')}"
 
         return success_url
 

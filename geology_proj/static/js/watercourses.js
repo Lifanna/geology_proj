@@ -1,6 +1,8 @@
 $(document).ready(() => {
     const MAIN_URL = "http://localhost:8000";
 
+    $("#id_line").html('');
+
     $("#id_primary_watercourse").change(() => {
         var parentID = $("#id_primary_watercourse").find(":selected").val();
 
@@ -92,6 +94,25 @@ $(document).ready(() => {
             },
             error: () => {
                 // alert('Произошла ошибка!');
+            }
+        })
+    });
+
+    $("#id_watercourse").change((event) => {
+        $.ajax({
+            url: `${MAIN_URL}/lines/${event.currentTarget.value}`,
+            method: 'GET',
+            success: (response) => {
+                $("#id_line").html('');
+
+                response.forEach((line) => {
+                    $("#id_line").append(`
+                        <option value="${line.id}">${line.name}</option>
+                    `);
+                });
+            },
+            error: (e) => {
+                console.log("Error: ", e);
             }
         })
     });

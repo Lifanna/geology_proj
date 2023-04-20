@@ -41,77 +41,89 @@ admin.site.register(models.CustomUser, CustomUserAdmin)
 
 @admin.register(models.License)
 class LicenseAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели License в админ панели"""
     pass
 
 
 @admin.register(models.LicenseStatus)
 class LicenseStatusAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели LicenseStatus в админ панели"""
     pass
 
 
 @admin.register(models.WaterCourse)
 class WaterCourseAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели WaterCourse в админ панели"""
     pass
 
 
 @admin.register(models.Well)
 class WellAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели Well в админ панели"""
     pass
 
 
 @admin.register(models.Line)
 class LineAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели Line в админ панели"""
     pass
 
 
 @admin.register(models.TaskStatus)
 class TaskStatusAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели TaskStatus в админ панели"""
     pass
 
 
 @admin.register(models.Task)
 class TaskAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели Task в админ панели"""
     pass
 
 
 @admin.register(models.Team)
 class TeamAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели Team в админ панели"""
     pass
 
 
 @admin.register(models.Role)
 class RoleAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели Role в админ панели"""
+    pass
+
+
+@admin.register(models.LicenseWaterCourse)
+class LicenseWaterCourseAdmin(ModelAdmin):
+    """Регистрация модели LicenseWaterCourse в админ панели"""
     pass
 
 
 @admin.register(models.LineLicenseWaterCourse)
 class LineLicenseWaterCourseAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели LineLicenseWaterCourse в админ панели"""
     pass
 
 
 @admin.register(models.WellTask)
 class WellTaskAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели WellTask в админ панели"""
     pass
 
 
 @admin.register(models.Layer)
 class LayerAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели Layer в админ панели"""
+    pass
+
+
+@admin.register(models.MaterialCategory)
+class MaterialCategoryAdmin(ModelAdmin):
+    """Регистрация модели MaterialCategory в админ панели"""
     pass
 
 
 @admin.register(models.LayerMaterial)
 class LayerMaterialAdmin(ModelAdmin):
-    """Регистрация модели CustomUser в админ панели"""
+    """Регистрация модели LayerMaterial в админ панели"""
     pass

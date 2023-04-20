@@ -53,11 +53,17 @@ urlpatterns = [
     path('watercourses/add/<int:license_id>', views.WaterCourseCreateView.as_view(), name='watercourses_add'),
     path('watercourses/children/<int:pk>', api_views.WaterCourseChildrenDetailView.as_view(), name='watercourse_children'),
     path('objects/set_watercourses/<int:pk>', views.LicenseWaterCourseCreateView.as_view(), name='license_watercourse_add'),
+    path('objects/unset_watercourses/<int:pk>', views.LicenseWaterCourseRemoveListView.as_view(), name='license_watercourse_remove'),
+    path('objects/unset_watercourse/<int:license_id>/<int:pk>', views.LicenseWaterCourseRemoveView.as_view(), name='license_watercourse_remove_single'),
 
     # watercourses urls
     # запилить CRUD для линий
     path('lines/add/<int:license_id>', views.LineCreateView.as_view(), name='lines_add'),
     path('objects/set_lines/<int:pk>', views.LineLicenseWaterCourseCreateView.as_view(), name='line_license_watercourse_add'),
+    path('objects/unset_lines/<int:pk>', views.LineLicenseWaterCourseRemoveListView.as_view(), name='line_watercourse_remove'),
+    path('objects/unset_line/<int:license_id>/<int:pk>', views.LineLicenseWaterCourseRemoveView.as_view(), name='line_watercourse_remove'),
+
+    path('lines/<int:watercourse_id>', api_views.LineListAPIView.as_view(), name='lines_list_by_watercourses'),
 
     # wells urls
     path('wells/add', views.WellCreateView.as_view(), name='wells_add'),
