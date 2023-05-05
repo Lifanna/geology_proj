@@ -1,10 +1,14 @@
+from typing import Any, Dict
+from django.forms.models import BaseModelForm
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from main import models, forms
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from main.services import export_to_excel_service
 
 
 class CustomLoginView(LoginView):
@@ -29,21 +33,48 @@ class CustomRegistrationView(CreateView):
     form_class = forms.CustomUserRegistrationForm
 
 
-class MainMenuView(LoginRequiredMixin, ListView):
+from django.contrib.auth.decorators import login_required, permission_required
+
+@login_required
+@permission_required('main.add_license')
+def the_view(request):
+    print(request.user.has_perm('main.add_license'))
+        
+    for per in request.user.get_user_permissions():
+        print("ASDASD", per)
+    return render(request, 'main/index.html')
+
+class MainMenuView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'main.add_license'
     template_name = "main/main_menu.html"
     queryset = models.Well
 
     def get_queryset(self):
+        user = self.request.user.get_all_permissions()
+        # print("DDDDDD: ", user)
+        # print(self.request.user.has_perm('main.add_license'))
+        if self.request.user.has_perm('main.add_license'):
+            print("DA")
+        else:
+            print("NET")
         if self.request.GET.get("target") == "objects":
             queryset = models.License.objects.all()
+
+            if self.request.GET.get('order'):
+                ordering = self.request.GET.get('order')
+                queryset = models.License.objects.order_by(ordering).all()
         elif self.request.GET.get("target") == "users":
             queryset = models.CustomUser.objects.exclude(is_admin=True).all()
         elif self.request.GET.get("target") == "documents":
-            queryset = models.Documentation.objects.all()
+            queryset = models.Documentation.objects.order_by('-id').all()
         elif self.request.GET.get("target") == "mine":
             queryset = models.Mine.objects.all()
         else:
             queryset = models.Task.objects.all()
+
+            if self.request.GET.get('order'):
+                ordering = self.request.GET.get('order')
+                queryset = models.Task.objects.order_by(ordering).all()
 
         return queryset
 
@@ -56,7 +87,8 @@ class MainMenuView(LoginRequiredMixin, ListView):
 
 
 """OBJECTS CLASS-BASED VIEWS"""
-class ObjectCreateView(CreateView):
+class ObjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = ('main.add_license',)
     template_name = "main/objects/new.html"
     model = models.License
     form_class = forms.ObjectCreateForm
@@ -64,7 +96,7 @@ class ObjectCreateView(CreateView):
     # success_url = reverse_lazy("main_menu", kwargs={'target': 'objects'},)
 
 
-class ObjectDetailView(DetailView):
+class ObjectDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/objects/index.html"
     model = models.License
     queryset = models.License.objects.all()
@@ -78,7 +110,7 @@ class ObjectDetailView(DetailView):
         return context
 
 
-class ObjectEditView(UpdateView):
+class ObjectEditView(LoginRequiredMixin, UpdateView):
     template_name = "main/objects/edit.html"
     model = models.License
     form_class = forms.ObjectUpdateForm
@@ -99,14 +131,14 @@ class ObjectEditView(UpdateView):
 
 
 """TASKS CLASS-BASED VIEWS"""
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/tasks/new.html"
     model = models.Task
     form_class = forms.TaskCreateForm
     success_url = "/main_menu?target=tasks"
 
 
-class TaskDetailView(DetailView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/tasks/index.html"
     model = models.Task
     queryset = models.Task.objects.all()
@@ -118,7 +150,7 @@ class TaskDetailView(DetailView):
 
         return context
 
-class TaskEditView(UpdateView):
+class TaskEditView(LoginRequiredMixin, UpdateView):
     template_name = "main/tasks/edit.html"
     model = models.Task
     form_class = forms.TaskUpdateForm
@@ -137,20 +169,20 @@ class TaskEditView(UpdateView):
 
 
 """USERS CLASS-BASED VIEWS"""
-class CustomUserCreateView(CreateView):
+class CustomUserCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/users/new.html"
     model = models.CustomUser
     form_class = forms.CustomUserCreateForm
     success_url = "/main_menu?target=users"
 
 
-class CustomUserDetailView(DetailView):
+class CustomUserDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/users/index.html"
     model = models.CustomUser
     queryset = models.CustomUser.objects.all()
 
 
-class CustomUserEditView(UpdateView):
+class CustomUserEditView(LoginRequiredMixin, UpdateView):
     template_name = "main/users/edit.html"
     model = models.CustomUser
     form_class = forms.CustomUserUpdateForm
@@ -161,7 +193,7 @@ class CustomUserEditView(UpdateView):
     #     return super().get_object(queryset)
 
 
-class CustomUserPasswordChangeView(UpdateView):
+class CustomUserPasswordChangeView(LoginRequiredMixin, UpdateView):
     template_name = "main/users/change_password.html"
     model = models.CustomUser
     form_class = forms.CustomUserPasswordChangeForm
@@ -179,7 +211,7 @@ class CustomUserPasswordChangeView(UpdateView):
 
 
 """WATERCOURSES CLASS-BASED VIEWS"""
-class WaterCourseCreateView(CreateView):
+class WaterCourseCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/objects/watercourses/new.html"
     model = models.WaterCourse
     form_class = forms.WaterCourseCreateForm
@@ -199,7 +231,7 @@ class WaterCourseCreateView(CreateView):
         return success_url
 
 
-class LicenseWaterCourseCreateView(CreateView):
+class LicenseWaterCourseCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/objects/watercourses_licenses/new.html"
     model = models.WaterCourse
     form_class = forms.LicenseWaterCourseCreateForm
@@ -221,7 +253,7 @@ class LicenseWaterCourseCreateView(CreateView):
         return success_url
 
 
-class LicenseWaterCourseRemoveListView(ListView):
+class LicenseWaterCourseRemoveListView(LoginRequiredMixin, ListView):
     template_name = "main/objects/watercourses_licenses/remove.html"
     model = models.LicenseWaterCourse
     # success_url = "/main_menu?target=users"
@@ -243,7 +275,7 @@ class LicenseWaterCourseRemoveListView(ListView):
         return success_url
 
 
-class LicenseWaterCourseRemoveView(DeleteView):
+class LicenseWaterCourseRemoveView(LoginRequiredMixin, DeleteView):
     template_name = "main/objects/watercourses_licenses/remove.html"
     model = models.LicenseWaterCourse
 
@@ -265,7 +297,7 @@ class LicenseWaterCourseRemoveView(DeleteView):
 
 
 """LINES CLASS-BASED VIEWS"""
-class LineCreateView(CreateView):
+class LineCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/objects/lines/new.html"
     model = models.Line
     form_class = forms.LineCreateForm
@@ -285,7 +317,7 @@ class LineCreateView(CreateView):
         return success_url
 
 
-class LineLicenseWaterCourseCreateView(CreateView):
+class LineLicenseWaterCourseCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/objects/lines_watercourses_licenses/new.html"
     model = models.LineLicenseWaterCourse
     form_class = forms.LineLicenseWaterCourseCreateForm
@@ -307,7 +339,7 @@ class LineLicenseWaterCourseCreateView(CreateView):
         return success_url
 
 
-class LineLicenseWaterCourseRemoveListView(ListView):
+class LineLicenseWaterCourseRemoveListView(LoginRequiredMixin, ListView):
     template_name = "main/objects/lines_watercourses_licenses/remove.html"
     model = models.LineLicenseWaterCourse
     form_class = forms.LineLicenseWaterCourseCreateForm
@@ -330,7 +362,7 @@ class LineLicenseWaterCourseRemoveListView(ListView):
         return success_url
 
 
-class LineLicenseWaterCourseRemoveView(DeleteView):
+class LineLicenseWaterCourseRemoveView(LoginRequiredMixin, DeleteView):
     template_name = "main/objects/lines_watercourses_licenses/remove.html"
     model = models.LineLicenseWaterCourse
 
@@ -351,7 +383,7 @@ class LineLicenseWaterCourseRemoveView(DeleteView):
 
 
 """WELLS CLASS-BASED VIEWS"""
-class WellCreateView(CreateView):
+class WellCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/tasks/wells/new.html"
     model = models.Well
     form_class = forms.WellCreateForm
@@ -373,7 +405,7 @@ class WellCreateView(CreateView):
         return success_url
 
 
-class WellDetailView(DetailView):
+class WellDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/tasks/wells/index.html"
     model = models.Well
 
@@ -385,7 +417,7 @@ class WellDetailView(DetailView):
         return context
 
 
-class WellEditView(UpdateView):
+class WellEditView(LoginRequiredMixin, UpdateView):
     template_name = "main/tasks/wells/edit.html"
     model = models.Well
     form_class = forms.WellUpdateForm
@@ -396,7 +428,7 @@ class WellEditView(UpdateView):
         return success_url
 
 
-class WellTaskCreateView(CreateView):
+class WellTaskCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/tasks/wells/well_tasks/new.html"
     model = models.WellTask
     form_class = forms.WellTaskCreateForm
@@ -414,7 +446,7 @@ class WellTaskCreateView(CreateView):
 
 
 """LAYERS CLASS-BASED VIEWS"""
-class LayerCreateView(CreateView):
+class LayerCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/tasks/wells/layers/new.html"
     model = models.Layer
     form_class = forms.LayerCreateForm
@@ -424,7 +456,7 @@ class LayerCreateView(CreateView):
         return f"/wells/{well_id}"
 
 
-class LayerDetailView(DetailView):
+class LayerDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/tasks/wells/layers/index.html"
     model = models.Layer
     
@@ -438,7 +470,7 @@ class LayerDetailView(DetailView):
         return context
 
 
-class LayerUpdateView(UpdateView):
+class LayerUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "main/tasks/wells/layers/edit.html"
     model = models.Layer
     form_class = forms.LayerCreateForm
@@ -457,20 +489,46 @@ class LayerUpdateView(UpdateView):
 
 
 """DOCUMENTATION CLASS-BASED VIEWS"""
-class DocumentationCreateView(CreateView):
+class DocumentationCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/documents/new.html"
     model = models.Documentation
     form_class = forms.DocumentsCreateForm
     success_url = "/main_menu?target=documents"
 
+    def form_valid(self, form):
+        license = form.cleaned_data.get('license')
+        watercourse = form.cleaned_data.get('watercourse')
+        line = form.cleaned_data.get('line')
+        well = form.cleaned_data.get('well')
 
-class DocumentationDetailView(DetailView):
+        print(license.watercourses.all())
+
+        watercourse_bound = models.LicenseWaterCourse.objects.get(watercourse = watercourse)
+
+        export_service = export_to_excel_service.ExportToExcelService()
+        export_service.build_document(license=license, watercourse=watercourse, watercourse_bound=watercourse_bound, line=line, well=well)
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        url = f'/documents/{self.object.id}'
+
+        return url
+
+
+class DocumentationDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/documents/index.html"
     model = models.Documentation
     success_url = "/main_menu?target=documents"
-    
 
-class DocumentationUpdateView(UpdateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['file'] = '/media/example.xlsx'
+
+        return context
+
+
+class DocumentationUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "main/documents/edit.html"
     model = models.Documentation
     form_class = forms.DocumentsCreateForm
@@ -478,21 +536,25 @@ class DocumentationUpdateView(UpdateView):
 
 
 """MINE CLASS-BASED VIEWS"""
-class MineCreateView(CreateView):
+class MineCreateView(LoginRequiredMixin, CreateView):
     template_name = "main/mine/new.html"
     model = models.Mine
     form_class = forms.MineCreateForm
     success_url = "/main_menu?target=mine"
 
 
-class MineDetailView(DetailView):
+class MineDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/mine/index.html"
     model = models.Mine
     success_url = "/main_menu?target=mine"
-    
 
-class MineUpdateView(UpdateView):
+
+class MineUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "main/mine/edit.html"
     model = models.Mine
     form_class = forms.MineCreateForm
     success_url = "/main_menu?target=mine"
+
+
+# class MineImageCreateView(CreateView):
+    

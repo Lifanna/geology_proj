@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'patronymic', 'team', 'phone_number', 'role')}),
         ('Permissions', {
-            'fields': ('is_active',),
+            'fields': ('is_active', 'is_superuser', 'groups', 'user_permissions'),
         }),
         ('Important dates', {'fields': ('last_login',)}),
     )
@@ -35,7 +35,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
-admin.site.unregister(Group)
+# admin.site.unregister(Group)
 admin.site.register(models.CustomUser, CustomUserAdmin)
 
 

@@ -1,4 +1,4 @@
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, ListCreateAPIView
 from rest_framework.viewsets import ViewSet
 from main.api import serializers
 from main import models
@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from main.api import image_decoder
 import io
+from main.services import mine_generator
+from django.http import HttpResponse
 
 
 class WaterCourseChildrenDetailView(ListAPIView):
@@ -137,3 +139,30 @@ class LineListAPIView(ListAPIView):
         serializer = self.serializer_class(queryset, many=True)
 
         return Response(serializer.data)
+
+
+class WellListAPIView(ListAPIView):
+    serializer_class = serializers.WellSerializer
+    model = serializer_class.Meta.model
+    permission_classes = [AllowAny,]
+
+    def list(self, request, line_id):
+        queryset = self.serializer_class.Meta.model.objects.filter(line__id=line_id).all()
+
+        serializer = self.serializer_class(queryset, many=True)
+
+        return Response(serializer.data)
+
+
+class MineImageCreateAPIView(ListCreateAPIView):
+    serializer_class = serializers.MineSerializer
+    permission_classes = [AllowAny,]
+
+    def post(self, request, *args, **kwargs):
+        wells_ids_list = request.data
+        print("PPPPPPP: ", wells_ids_list.get("wells"))
+
+        image = mine_generator.generate_mine()
+        
+        return Response({'img': image}, status=201)
+        # return HttpResponse(image, content_type='image/png')

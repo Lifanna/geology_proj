@@ -71,6 +71,8 @@ urlpatterns = [
     path('wells/edit/<int:pk>', views.WellEditView.as_view(), name='wells_edit'),
     path('wells/set_welltasks/<int:pk>', views.WellTaskCreateView.as_view(), name='wells_task_add'),
 
+    path('wells_by_line/<int:line_id>', api_views.WellListAPIView.as_view(), name='wells_list_by_line'),
+
     # layers urls
     path('layers/add', views.LayerCreateView.as_view(), name='layers_add'),
     path('layers/<int:pk>', views.LayerDetailView.as_view(), name='layers_detail'),
@@ -95,6 +97,10 @@ urlpatterns = [
     path('mine/add', views.MineCreateView.as_view(), name='mine_edit'),
     path('mine/<int:pk>', views.MineDetailView.as_view(), name='mineetail'),
     path('mine/edit/<int:pk>', views.MineUpdateView.as_view(), name='mine_edit'),
+
+    path('mine/images/add', api_views.MineImageCreateAPIView.as_view(), name='mine_image_add'),
+
+    path('asd', views.the_view)
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

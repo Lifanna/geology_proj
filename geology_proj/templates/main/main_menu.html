@@ -2,14 +2,19 @@
 {% block content %}
     <div class="col-12">
       <div class="list-group d-flex flex-md-row flex-column" id="list-tab" role="tablist">
-        <a class="list-group-item list-group-item-action {% if target == 'objects' %}active{% endif %}" id="list-home-list" href="/main_menu?target=objects">Лицензии</a>
-        <a class="list-group-item list-group-item-action {% if target == 'tasks' or target == None %}active{% endif %}" id="list-profile-list" href="/main_menu?target=tasks">Задания</a>
-        <a class="list-group-item list-group-item-action {% if target == 'users' %}active{% endif %}" id="list-messages-list" href="/main_menu?target=users">Пользователи</a>
-        <a class="list-group-item list-group-item-action {% if target == 'mine' %}active{% endif %}" id="list-settings-list" href="/main_menu?target=mine">Редактор разреза</a>
-        <a class="list-group-item list-group-item-action {% if target == 'documents' %}active{% endif %}" id="list-settings-list" href="/main_menu?target=documents">Документация</a>
+        <a class="list-group-item list-group-item-action text-center {% if target == 'objects' %}active{% endif %}" id="list-home-list" href="/main_menu?target=objects">Лицензии</a>
+        <a class="list-group-item list-group-item-action text-center {% if target == 'tasks' or target == None %}active{% endif %}" id="list-profile-list" href="/main_menu?target=tasks">Задания</a>
+        <a class="list-group-item list-group-item-action text-center {% if target == 'users' %}active{% endif %}" id="list-messages-list" href="/main_menu?target=users">Пользователи</a>
+        <a class="list-group-item list-group-item-action text-center {% if target == 'mine' %}active{% endif %}" id="list-settings-list" href="/main_menu?target=mine">Редактор разреза</a>
+        <a class="list-group-item list-group-item-action text-center {% if target == 'documents' %}active{% endif %}" id="list-settings-list" href="/main_menu?target=documents">Документация</a>
       </div>
     </div>
-    <div class="col-12 my-4">
+    <div class="col-12 mt-3">
+      {% if target == 'documents' %}
+      <a href="/documents/add" class="btn btn-success">Создать отчет<i class="fas fa-plus ml-1"></i></a>
+      {% endif %}
+    </div>
+    <div class="col-12 my-3">
       <table class="table table-responsive table-hover">
         {% if target == 'objects' %}
           {% include 'main/main_menu_partials/objects_partial.html' %}

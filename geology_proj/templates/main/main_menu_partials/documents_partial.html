@@ -2,10 +2,11 @@
   <thead class="bg-navbar-main">
     <tr>
       <th scope="col">№</th>
-      <th scope="col">Лицензия <a href="/documents/add" class="ml-4 text-dark"><i class="fas fa-plus"></i></a></th>
-      <th scope="col">Водоток</th>
+      <th scope="col">Лицензия</th>
+      {% comment %} <th scope="col">Водоток</th>
       <th scope="col">Линия</th>
-      <th scope="col">Скважина <a href="#" class="ml-4 text-dark"><i class="fa fa-sliders-h" aria-hidden="true"></i></a></th>
+      <th scope="col">Скважина</th> {% endcomment %}
+      <th scope="col">Дата создания</th>
     </tr>
   </thead>
   <tbody>
@@ -13,9 +14,10 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td><a href="/documents/{{ documents.id }}" class="text-dark">{{ documents.license }}</a></td>
+        {% comment %} <td>{{ documents.watercourse }}</td>
         <td>{{ documents.watercourse }}</td>
-        <td>{{ documents.line }}</td>
-        <td>{{ documents.well }}</td>
+        <td>{{ documents.line }}</td> {% endcomment %}
+        <td>{{ documents.created_at }}</td>
       </tr>
     {% endfor %}
   </tbody>

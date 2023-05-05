@@ -8,7 +8,7 @@
       <th scope="col">Линия</th>
       <th scope="col">Скважина</th>
       <th scope="col">Ответственный</th>
-      <th scope="col">Статус</th>
+      <th scope="col">Статус <a href="?target=tasks&order={% if request.GET.order == 'status' %}-status{% else %}status{% endif %}" class="ml-4 text-dark"><i class="fa fa-sliders-h" aria-hidden="true"></i></a></th>
     </tr>
   </thead>
   <tbody>

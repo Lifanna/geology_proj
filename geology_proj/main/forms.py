@@ -14,9 +14,9 @@ class CustomUserRegistrationForm(UserCreationForm):
 class ObjectCreateForm(forms.ModelForm):
     used_enginery = forms.CharField(label="Используемая техника", required=False, widget=forms.Textarea)
 
-    mbu = forms.ModelChoiceField(label="МБУ", queryset=models.CustomUser.objects.all(), required=False)
+    # mbu = forms.ModelChoiceField(label="МБУ", queryset=models.CustomUser.objects.all(), required=False)
 
-    pmbou = forms.ModelChoiceField(label="ПМБУ", queryset=models.CustomUser.objects.all(), required=False)
+    # pmbou = forms.ModelChoiceField(label="ПМБУ", queryset=models.CustomUser.objects.all(), required=False)
 
     class Meta:
         model = models.License
@@ -48,9 +48,9 @@ class LineLicenseWaterCourseCreateForm(forms.ModelForm):
 class ObjectUpdateForm(forms.ModelForm):
     used_enginery = forms.CharField(label="Используемая техника", required=False, widget=forms.Textarea)
 
-    mbu = forms.ModelChoiceField(label="МБУ", queryset=models.CustomUser.objects.all(), required=False)
+    # mbu = forms.ModelChoiceField(label="МБУ", queryset=models.CustomUser.objects.all(), required=False)
 
-    pmbou = forms.ModelChoiceField(label="ПМБУ", queryset=models.CustomUser.objects.all(), required=False)
+    # pmbou = forms.ModelChoiceField(label="ПМБУ", queryset=models.CustomUser.objects.all(), required=False)
 
     class Meta:
         model = models.License
@@ -231,6 +231,6 @@ class MineCreateForm(forms.ModelForm):
             'license',
             'watercourse',
             'line',
-            'well',
+            'wells',
             'address',
         )

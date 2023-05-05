@@ -20,7 +20,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     role = RoleSerializer()
     class Meta:
         model = models.CustomUser
-        fields = ('id', 'first_name', 'last_name', 'role',)
+        fields = ('id', 'first_name', 'last_name', 'role', 'username',)
 
 
 class WaterCourseChildrenSerializer(serializers.ModelSerializer):
@@ -82,4 +82,10 @@ class TaskSerializer(serializers.ModelSerializer):
 class LayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Layer
+        fields = '__all__'
+
+
+class MineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Mine
         fields = '__all__'

@@ -1,33 +1,56 @@
 {% extends "layout.html" %}
 {% block content %}
 {% load widget_tweaks %}
+    <input type="hidden" id="mode" value="edit">
     <div class="col-12">
         <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>{{ object.short_name }}</h2>
-            <form method="post">
-                {% csrf_token %}
+            <div class="col-md-6">
+                <h2>{{ object.short_name }}</h2>
+                <form method="post">
+                    {% csrf_token %}
 
-                {% for hidden in form.hidden_fields %}
-                    {{ hidden }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {% render_field field class="form-control" placeholder=field.label %}
+                            {% for error in field.errors %}
+                            <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
                     <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {% render_field field class="form-control" placeholder=field.label %}
-                        {% for error in field.errors %}
-                        <span class="help-block">{{ error }}</span>
-                        {% endfor %}
+                        <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok"></span> Сохранить
+                        </button>
+                        <a href="/main_menu?target=mine" class="btn btn-default">Назад</a>
                     </div>
-                {% endfor %}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-ok"></span> Сохранить
-                    </button>
-                    <a href="/main_menu?target=mine" class="btn btn-default">Назад</a>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
+    </div>
+    <script src="/static/js/watercourses.js"></script>
+    <script src="/static/js/mine.js"></script>
+
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalLongTitle">Ошибка</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Сначала выберите список скважин 
+              <p>(для выбора нескольких скважин необходимо удерживать Ctrl)</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
         </div>
     </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 
 
 # Create your models here.
@@ -74,7 +74,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField("Логин пользователя", max_length=50, unique=True)
 
     first_name = models.CharField("Имя", max_length=50)
@@ -91,6 +91,7 @@ class CustomUser(AbstractBaseUser):
 
     role = models.ForeignKey(Role, on_delete=models.CASCADE, verbose_name="Должность")
 
+    is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -127,7 +128,7 @@ class CustomUser(AbstractBaseUser):
 
     @property
     def is_driller(self):
-        "Is the user a customer?"
+        "Is the user a driller?"
 
         return self.role.title == "бурильщик"
     
@@ -250,6 +251,8 @@ class LayerMaterial(models.Model):
 
 class Layer(models.Model):
     name = models.CharField("Наименование", max_length=255)
+
+    depth = models.FloatField("Глубина", max_length=255, null=True)
 
     description = models.TextField("Описание", null=True, blank=True)
 
@@ -391,7 +394,7 @@ class Documentation(models.Model):
 
     line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name="Линия")
 
-    well = models.ForeignKey(Well, on_delete=models.CASCADE, verbose_name="Скважина")
+    well = models.ForeignKey(Well, on_delete=models.CASCADE, verbose_name="Скважина", null=True)
 
     created_at = models.DateTimeField("Дата создания", auto_now_add=True)
 
@@ -413,7 +416,7 @@ class Mine(models.Model):
 
     line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name="Линия")
 
-    well = models.ForeignKey(Well, on_delete=models.CASCADE, verbose_name="Скважина")
+    wells = models.ManyToManyField(Well, verbose_name="Скважины")
 
     address = models.TextField("Адрес", null=True)
 

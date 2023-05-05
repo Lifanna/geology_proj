@@ -11,40 +11,49 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="/static/css/main.scss" />
     </head>
-    <body>
-      <div class="container-fluid navbar navbar-expand-md navbar-light bg-navbar-main">
+    <body class="d-flex flex-column min-vh-100">
+      <div class="container-fluid navbar-light bg-navbar-main">
         <div class="row">
           {% comment %} <div class="row ff-roundfit-l-e collapse navbar-collapse" id="navbarTogglerDemo02"> {% endcomment %}
             <div class="col-12 col-lg-2 text-center mt-3">
-              <a href="/"><img class="img-fluid w-25" src="/static/images/navbar_brand.png"></a>
+              <a href="/"><img class="img-fluid navbar-brand" src="/static/images/navbar_brand.png"></a>
+            </div>
+            <div class="col-12 col-lg-8 justify-content-center d-flex align-items-center">
+              <h2>Автоматизированное рабочее место "Геолог"</h2>
+            </div>
+            <div class="col-12 col-lg-2 text-center mt-3">
               <ul class="d-none d-lg-block navbar-nav mr-auto mt-2 ml-3 ml-md-0 mt-lg-0 justify-content-center">
                 {% if request.user.is_authenticated %}
                   <li class="nav-item dropdown">
-                    <a class="text-dark mt-2" href="/logout">
-                      <i class="fas fa-sign-out-alt" style="font-size: 24px;"></i>
+                    <a class="nav-link d-flex flex-column text-dark mt-2" href="/logout">
+                      <i class="fa fa-user" aria-hidden="true" style="font-size: 24px;"></i> Выйти
                     </a>
                   </li>
                 {% else %}
-                  <li class="nav-item m-lg-0">
-                    <a class="nav-link btn btn-lg" href="/login/">Войти</a>
-                  </li>
+                  {% comment %} <li class="nav-item m-lg-0">
+                    <i class="fa fa-user" aria-hidden="true" style="font-size: 24px;">Войти</i>
+                  </li> {% endcomment %}
                 {% endif %}
               </ul>
             </div>
-            <div class="col-12 col-lg-10 justify-content-center d-flex align-items-center">
-              <h1 class='text-center'>Автоматизированное рабочее место "Геолог"</h1>
+            <div class="col-12 col-lg-12 justify-content-center d-flex align-items-center">
+              <h5 class="text-center">
+                {% if request.user.is_authenticated %}
+                  {{ request.user.first_name }} {{ request.user.last_name }}
+                {% else %}
+                  {% comment %} <li class="nav-item m-lg-0">
+                    <i class="fa fa-user" aria-hidden="true" style="font-size: 24px;">Войти</i>
+                  </li> {% endcomment %}
+                {% endif %}
+              </h5>
             </div>
             <div class="col-12 col-lg-2 col-xl-2 d-block d-lg-none">
               <ul class="navbar-nav mr-auto mt-2 ml-3 ml-md-0 mt-lg-0 justify-content-center">
                 {% if request.user.is_authenticated %}
                   <li class="nav-item dropdown text-center">
-                    <a class="nav-link btn btn-lg text-dark" href="/logout">
-                      Выйти <i class="fas fa-sign-out-alt" style="font-size: 24px;"></i>
+                    <a class="nav-link d-flex flex-column text-dark mt-2" href="/logout">
+                      <i class="fa fa-user" aria-hidden="true" style="font-size: 24px;"></i> Выйти
                     </a>
-                  </li>
-                {% else %}
-                  <li class="nav-item m-lg-0">
-                    <a class="nav-link btn btn-lg" href="/login/">Войти</a>
                   </li>
                 {% endif %}
               </ul>
@@ -63,5 +72,10 @@
               {% block content %}{% endblock %}
           </div>
       </div>
+      <footer class="mt-auto py-3" style="background-color: #808080">
+        <div class="container">
+          <span class="text-light">© 2023 OOO "АРТЕЛЬ-УДАЧНАЯ"</span>
+        </div>
+      </footer>
     </body>
 </html>

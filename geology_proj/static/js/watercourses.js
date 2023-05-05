@@ -1,7 +1,10 @@
 $(document).ready(() => {
     const MAIN_URL = "http://localhost:8000";
 
-    $("#id_line").html('');
+    if ($("#mode").length == 0) {
+        $("#id_line").html('');
+        $("#id_wells").html('');
+    }
 
     $("#id_primary_watercourse").change(() => {
         var parentID = $("#id_primary_watercourse").find(":selected").val();
@@ -104,12 +107,38 @@ $(document).ready(() => {
             method: 'GET',
             success: (response) => {
                 $("#id_line").html('');
+                $("#id_wells").html('');
+
+                $("#id_line").append(`
+                    <option selected disabled>Выберите линию</option>
+                `);
 
                 response.forEach((line) => {
                     $("#id_line").append(`
                         <option value="${line.id}">${line.name}</option>
                     `);
                 });
+            },
+            error: (e) => {
+                console.log("Error: ", e);
+            }
+        })
+    });
+
+    $("#id_line").change((event) => {
+        $.ajax({
+            url: `${MAIN_URL}/wells_by_line/${event.currentTarget.value}`,
+            method: 'GET',
+            success: (response) => {
+                $("#id_well").html('');
+
+                response.forEach((well) => {
+                    $("#id_well").append(`
+                        <option value="${well.id}">${well.name}</option>
+                    `);
+                });
+
+
             },
             error: (e) => {
                 console.log("Error: ", e);

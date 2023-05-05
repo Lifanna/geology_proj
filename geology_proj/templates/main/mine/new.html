@@ -3,49 +3,73 @@
 {% load widget_tweaks %}
     <div class="col-12">
         <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>Новый разрез</h2>
-            <form method="post">
-                {% csrf_token %}
+            <div class="col-md-6">
+                <h2>Новый разрез</h2>
+                <form method="post">
+                    {% csrf_token %}
 
-                {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
-                    {% if field.name == "well" %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {% render_field field class="form-control" placeholder=field.label %}
-                            {% for error in field.errors %}
-                            <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {% render_field field class="form-control" placeholder=field.label %}
-                            {% for error in field.errors %}
-                            <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary">Сгенерировать разрез</button>
-                </div>
-                <div class="form-group">
-                    <img src="/static/images/mine_example.jpg" class="img-fluid">
-                    <input type="hidden">
-                </div>
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        {% if field.name == "well" %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% render_field field class="form-control" placeholder=field.label %}
+                                {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% render_field field class="form-control" placeholder=field.label %}
+                                {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="form-group">
+                        <button type="button" id="generateMineBtn" class="btn btn-primary">Сгенерировать разрез</button>
+                    </div>
+                    <div class="form-group">
+                        {% comment %} <img id="img" src="/static/images/mine_example.jpg" class="img-fluid w-100"> {% endcomment %}
+                        <img id="img" src="/media/Cross_section_out44-2022.svg" class="img-fluid w-100">
+                        <input type="hidden">
+                        <a href="/media/Cross_section_out44-2022.svg" class="btn btn-info" download>Скачать изображение</a>
+                    </div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-ok"></span> Сохранить
-                    </button>
-                    <a href="/main_menu?target=mine" class="btn btn-default">Назад</a>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok"></span> Сохранить
+                        </button>
+                        <a href="/main_menu?target=mine" class="btn btn-default">Назад</a>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
+    <script src="/static/js/watercourses.js"></script>
+    <script src="/static/js/mine.js"></script>
+
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalLongTitle">Ошибка</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Сначала выберите список скважин 
+              <p>(для выбора нескольких скважин необходимо удерживать Ctrl)</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
         </div>
     </div>
 {% endblock %}
