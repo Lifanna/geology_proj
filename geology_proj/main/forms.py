@@ -1,7 +1,11 @@
+from typing import Any
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from main import models
 from django.contrib.auth.password_validation import validate_password
+import os
+from uuid import uuid4
+from django.core.files import File
 
 
 class CustomUserRegistrationForm(UserCreationForm):
@@ -27,7 +31,7 @@ class ObjectCreateForm(forms.ModelForm):
 class LicenseWaterCourseCreateForm(forms.ModelForm):
     class Meta:
         model = models.LicenseWaterCourse
-        fields = ('is_primary', 'watercourse', 'parent_watercourse',)
+        fields = ('is_primary', 'license', 'watercourse', 'parent_watercourse',)
 
 
 class LicenseWaterCourseRemoveForm(forms.ModelForm):
@@ -79,10 +83,32 @@ class TaskCreateForm(forms.ModelForm):
     class Meta:
         model = models.Task
         fields = '__all__'
-        exclude = ('wells',)
+        exclude = ('wells', 'images',)
 
 
 class TaskUpdateForm(forms.ModelForm):
+    images = forms.ImageField(label="Фотографии", widget=forms.FileInput(attrs={'multiple': True}), required=False)
+
+    def save(self):
+        for name in self.files.getlist('images'):
+            task_image_single = models.TaskImageSingle()
+            _, ext = os.path.splitext(name.name)
+            newname = f'{uuid4()}{ext}'
+
+            task_image_single.image.save(
+                os.path.basename(newname),
+                File(name)
+            )
+            
+            task_image = models.TaskImage(
+                task = self.instance,
+                task_image_single = task_image_single,
+            )
+            task_image.save()
+            
+
+        return super().save(commit=False)
+
     class Meta:
         model = models.Task
         fields = (
@@ -91,6 +117,7 @@ class TaskUpdateForm(forms.ModelForm):
             'license',
             'line',
             'wells',
+            'images',
             'responsible',
             'status',
             'comment',

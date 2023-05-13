@@ -3,42 +3,68 @@
 {% load widget_tweaks %}
     <div class="col-12">
         <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2>Новое задание</h2>
-            <form method="post">
-                {% csrf_token %}
-            
-                {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-                {% endfor %}
-                {% for field in form.visible_fields %}
-                    {% if field.name == "wells" %}
-                        {% comment %} <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {% render_field field class="form-control" placeholder=field.label %}
-                            {% for error in field.errors %}
-                            <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                            <a href="/wells/add" class="btn btn-secondary mt-2">Добавить скважину</a>
-                        </div> {% endcomment %}
-                    {% else %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {% render_field field class="form-control" placeholder=field.label %}
-                            {% for error in field.errors %}
-                            <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-ok"></span> Сохранить
-                    </button>
-                    <a href="/main_menu?target=tasks" class="btn btn-default">Назад</a>
-                </div>
-            </form>
-        </div>
+            <div class="col-md-6">
+                <h2>Новое задание</h2>
+                <form method="post">
+                    {% csrf_token %}
+                
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                        {% if field.name == "wells" %}
+                            {% comment %} <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% render_field field class="form-control" placeholder=field.label %}
+                                {% for error in field.errors %}
+                                <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                                <a href="/wells/add" class="btn btn-secondary mt-2">Добавить скважину</a>
+                            </div> {% endcomment %}
+                        {% else %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% render_field field class="form-control" placeholder=field.label %}
+                                {% for error in field.errors %}
+                                    <span class="help-block">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% comment %} <input type="file" name="images[]" class="form-control file__input--file" multiple="true" id="file__input" accept="image/png, image/jpeg"> {% endcomment %}
+                    {% comment %} <div class="my-3" id="uploadedImages">
+                    </div> {% endcomment %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok"></span> Сохранить
+                        </button>
+                        <a href="/main_menu?target=tasks" class="btn btn-default">Назад</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+    {% comment %} <script>
+        $(document).ready(() => {
+            $('.file__input--file').on('change', (event) => {
+                var files = event.target.files;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    // <input name="file[]" type="file" />
+                    var fileInput = $('<input class="d-none" name="images[]" type="file">');
+                    fileInput.files = file;
+                    $("#uploadedImages").append(`<div id="${file.name}" class="d-flex flex-column"><img class="img-fluid py-2" src="${URL.createObjectURL(file)}">
+
+                    <button class="btn btn-primary removeImageBtn" id="${file.name}" type="button"><i class="fas fa-trash text-danger"></i></button></div>`);
+                    $(`div[id='${file.name}']`).append(fileInput);
+                }
+            });
+
+            $(document).on('click', '.removeImageBtn', (event) => {
+                var buttonID = event.target.id;
+                $(`div[id='${buttonID}']`).remove();
+                $(`#file__input`).val('')
+            });
+        });
+    </script> {% endcomment %}
 {% endblock %}

@@ -12,7 +12,6 @@ class ExportToExcelService:
         self.workbook = openpyxl.load_workbook("main/services/example.xlsx")
         self.worksheet_1 = self.workbook.active
         self.worksheet_2 = self.workbook.get_sheet_by_name('Стр. 2')
-        print("QQQQ:", self.worksheet_2.title)
         # self.worksheet_2 = self.workbook.active
 
     # def build_document(self, license : models.License, 

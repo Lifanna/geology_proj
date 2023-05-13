@@ -44,6 +44,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="images" class="font-weight-bold">Фотографии к заданию</label>
+                    {% for image in images %}
+                        <img class="img-fluid my-2" src="{{ image.task_image_single.image.url }}">
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
                     <label for="created_at" class="font-weight-bold">Дата создания</label>
                     <input type="text" class="form-control" readonly id="created_at" value="{{ object.created_at }}">
                 </div>

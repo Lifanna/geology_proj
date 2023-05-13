@@ -57,8 +57,6 @@ class WellSerializer(serializers.ModelSerializer):
 
 class LicenseSerializer(serializers.ModelSerializer):
     geologist = CustomUserSerializer()
-    mbu = CustomUserSerializer()
-    pmbou = CustomUserSerializer()
     watercourses = WaterCourseSerializer(many=True)
     lines = LineSerializer(many=True)
 
@@ -67,12 +65,32 @@ class LicenseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskImageSingleSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.TaskImageSingle
+        fields = '__all__'
+
+    def get_image(self, obj):
+        print('DFFFFF:', obj)
+        return self.context['request'].build_absolute_uri(obj)
+
+
+class TaskImageSerializer(serializers.ModelSerializer):
+    image = TaskImageSingleSerializer()
+    class Meta:
+        model = models.TaskImage
+        fields = ('image',)
+
+
 class TaskSerializer(serializers.ModelSerializer):
     line = LineSerializer()
     license = LicenseSerializer()
     wells = WellSerializer(many=True)
     responsible = CustomUserSerializer()
     status = TaskStatusSerializer()
+    images = TaskImageSerializer(many=True)
 
     class Meta:
         model = models.Task

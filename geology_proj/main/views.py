@@ -9,6 +9,9 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from main import models, forms
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from main.services import export_to_excel_service
+import os
+from uuid import uuid4
+from django.core.files.base import ContentFile
 
 
 class CustomLoginView(LoginView):
@@ -137,6 +140,11 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.TaskCreateForm
     success_url = "/main_menu?target=tasks"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
+    
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/tasks/index.html"
@@ -147,6 +155,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         context['wells'] = models.WellTask.objects.filter(task=self.get_object()).all()
+        context['images'] = models.TaskImage.objects.filter(task=self.get_object()).all()
 
         return context
 
@@ -158,14 +167,27 @@ class TaskEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         context['wells'] = models.WellTask.objects.filter(task=self.get_object()).all()
+        context['images'] = models.TaskImage.objects.filter(task=self.get_object()).all()
 
         return context
 
-    # def get_object(self, queryset):
-    #     queryset = self.queryset
-    #     return super().get_object(queryset)
+
+class TaskImageRemoveView(LoginRequiredMixin, DeleteView):
+    template_name = "main/tasks/task_images/remove.html"
+    model = models.TaskImageSingle
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['task'] = models.Task.objects.get(pk=self.kwargs.get('task_id'))
+
+        return context
+
+    def get_success_url(self):
+        success_url = f"/tasks/edit/{self.kwargs.get('task_id')}"
+
+        return success_url
 
 
 """USERS CLASS-BASED VIEWS"""

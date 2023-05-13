@@ -352,6 +352,10 @@ class TaskStatus(models.Model):
         verbose_name_plural = "Статусы заданий"
 
 
+class TaskImageSingle(models.Model):
+    image = models.ImageField("Фотографии задания", upload_to='task_images/', null=True)
+
+
 class Task(models.Model):
     short_name = models.CharField("Брифинг", max_length=255)
 
@@ -364,6 +368,8 @@ class Task(models.Model):
     wells = models.ManyToManyField(Well, through='WellTask', through_fields=('task', 'well'), verbose_name="Скважины")
 
     responsible = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Ответственный")
+
+    images = models.ManyToManyField(TaskImageSingle, through='TaskImage', through_fields=('task', 'task_image_single'), verbose_name="Фотографии к заданию")
 
     status = models.ForeignKey(TaskStatus, on_delete=models.CASCADE, verbose_name="Статус")
 
@@ -379,6 +385,12 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Задание"
         verbose_name_plural = "Задания"
+
+
+class TaskImage(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, verbose_name="Задание", null=True)
+
+    task_image_single = models.ForeignKey(TaskImageSingle, on_delete=models.CASCADE, verbose_name="Фотография задания", null=True)
 
 
 class WellTask(models.Model):

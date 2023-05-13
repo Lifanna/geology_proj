@@ -43,6 +43,8 @@ urlpatterns = [
     path('tasks/<int:pk>', views.TaskDetailView.as_view(), name='tasks_detail'),
     path('tasks/edit/<int:pk>', views.TaskEditView.as_view(), name='tasks_edit'),
 
+    path('tasks/<int:task_id>/image/delete/<int:pk>', views.TaskImageRemoveView.as_view(), name='tasks_image_delete'),
+
     # users urls
     path('users/add', views.CustomUserCreateView.as_view(), name='users_add'),
     path('users/<int:pk>', views.CustomUserDetailView.as_view(), name='users_detail'),

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from main.api import image_decoder
 import io
-from main.services import mine_generator
+# from main.services import mine_generator
 from django.http import HttpResponse
 
 
@@ -32,7 +32,7 @@ class TaskListView(ListAPIView):
         print("DDDD:", request.user.id)
         queryset = self.serializer_class.Meta.model.objects.filter(responsible__id=request.user.id, status__name="на выполнении").all()
 
-        serializer = serializers.TaskSerializer(queryset, many=True)
+        serializer = serializers.TaskSerializer(queryset, many=True, context= {'request': request})
 
         return Response(serializer.data)
 
@@ -162,7 +162,7 @@ class MineImageCreateAPIView(ListCreateAPIView):
         wells_ids_list = request.data
         print("PPPPPPP: ", wells_ids_list.get("wells"))
 
-        image = mine_generator.generate_mine()
+        # image = mine_generator.generate_mine()
         
         return Response({'img': image}, status=201)
         # return HttpResponse(image, content_type='image/png')
