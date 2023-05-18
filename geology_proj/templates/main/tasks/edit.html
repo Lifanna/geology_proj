@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 {% load widget_tweaks %}
+    <input type="hidden" id="mode" value="edit">
     <div class="col-12">
         <div class="row justify-content-center">
         <div class="col-md-6">
@@ -46,4 +47,5 @@
         </div>
         </div>
     </div>
+    <script src="/static/js/watercourses.js"></script>
 {% endblock %}

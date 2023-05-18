@@ -18,6 +18,10 @@
                     <input type="text" class="form-control" readonly id="license" value="{{ object.license }}">
                 </div>
                 <div class="form-group">
+                    <label for="watercourse" class="font-weight-bold">Водоток</label>
+                    <input type="text" class="form-control" readonly id="watercourse" value="{{ object.watercourse }}">
+                </div>
+                <div class="form-group">
                     <label for="line" class="font-weight-bold">Линия</label>
                     <input type="text" class="form-control" readonly id="line" value="{{ object.line }}">
                 </div>
@@ -25,7 +29,7 @@
                     <label for="well" class="font-weight-bold">Скважины</label>
                     <div id="wells" class="card card-body" style="overflow-y: scroll; height:200px;">
                         {% for well in wells %}
-                            <p><a href="/wells/{{well.well.id}}" class="text-dark">{{ well.well.name }}</a></p>
+                            <p><a href="/wells/{{ object.id }}/{{well.well.id}}" class="text-dark">{{ well.well.name }}</a></p>
                         {% endfor %}
                     </div>
                 </div>

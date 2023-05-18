@@ -144,7 +144,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
 
         return context
-    
+
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     template_name = "main/tasks/index.html"
@@ -434,6 +434,7 @@ class WellDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['task_id'] = self.kwargs.get("task_id")
         context['layers'] = models.Layer.objects.filter(well=self.get_object()).all()
 
         return context

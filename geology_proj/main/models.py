@@ -363,6 +363,8 @@ class Task(models.Model):
 
     license = models.ForeignKey(License, on_delete=models.CASCADE, verbose_name="Лицензия")
 
+    watercourse = models.ForeignKey(WaterCourse, on_delete=models.CASCADE, verbose_name="Водоток", null=True)
+
     line = models.ForeignKey(Line, on_delete=models.CASCADE, verbose_name="Линия")
 
     wells = models.ManyToManyField(Well, through='WellTask', through_fields=('task', 'well'), verbose_name="Скважины")

@@ -58,8 +58,9 @@ urlpatterns = [
     path('objects/unset_watercourses/<int:pk>', views.LicenseWaterCourseRemoveListView.as_view(), name='license_watercourse_remove'),
     path('objects/unset_watercourse/<int:license_id>/<int:pk>', views.LicenseWaterCourseRemoveView.as_view(), name='license_watercourse_remove_single'),
 
+    path('watercourses_by_license/<int:license_id>', api_views.WaterCourseListAPIView.as_view(), name='waterourse_by_license'),
+
     # watercourses urls
-    # запилить CRUD для линий
     path('lines/add/<int:license_id>', views.LineCreateView.as_view(), name='lines_add'),
     path('objects/set_lines/<int:pk>', views.LineLicenseWaterCourseCreateView.as_view(), name='line_license_watercourse_add'),
     path('objects/unset_lines/<int:pk>', views.LineLicenseWaterCourseRemoveListView.as_view(), name='line_watercourse_remove'),
@@ -69,7 +70,7 @@ urlpatterns = [
 
     # wells urls
     path('wells/add', views.WellCreateView.as_view(), name='wells_add'),
-    path('wells/<int:pk>', views.WellDetailView.as_view(), name='wells_detail'),
+    path('wells/<int:task_id>/<int:pk>', views.WellDetailView.as_view(), name='wells_detail'),
     path('wells/edit/<int:pk>', views.WellEditView.as_view(), name='wells_edit'),
     path('wells/set_welltasks/<int:pk>', views.WellTaskCreateView.as_view(), name='wells_task_add'),
 

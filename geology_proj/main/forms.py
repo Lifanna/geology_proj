@@ -107,7 +107,7 @@ class TaskUpdateForm(forms.ModelForm):
             task_image.save()
             
 
-        return super().save(commit=False)
+        return super().save(commit=True)
 
     class Meta:
         model = models.Task
@@ -115,6 +115,7 @@ class TaskUpdateForm(forms.ModelForm):
             'short_name',
             'description',
             'license',
+            'watercourse',
             'line',
             'wells',
             'images',
@@ -215,6 +216,9 @@ class WellUpdateForm(forms.ModelForm):
             'description',
             'comment',
             'line',
+            'x',
+            'y',
+            'z',
         )
 
 

@@ -154,6 +154,19 @@ class WellListAPIView(ListAPIView):
         return Response(serializer.data)
 
 
+class WaterCourseListAPIView(ListAPIView):
+    serializer_class = serializers.WaterCourseSerializer
+    model = serializer_class.Meta.model
+    permission_classes = [AllowAny,]
+
+    def list(self, request, license_id):
+        queryset = self.serializer_class.Meta.model.objects.filter(license__id=license_id).all()
+
+        serializer = self.serializer_class(queryset, many=True)
+
+        return Response(serializer.data)
+
+
 class MineImageCreateAPIView(ListCreateAPIView):
     serializer_class = serializers.MineSerializer
     permission_classes = [AllowAny,]

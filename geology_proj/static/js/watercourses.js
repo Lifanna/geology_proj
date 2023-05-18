@@ -101,6 +101,31 @@ $(document).ready(() => {
         })
     });
 
+    $("#id_license").change((event) => {
+        $.ajax({
+            url: `${MAIN_URL}/watercourses_by_license/${event.currentTarget.value}`,
+            method: 'GET',
+            success: (response) => {
+                $("#id_watercourse").html('');
+                $("#id_wells").html('');
+                $("#id_line").html('');
+
+                $("#id_watercourse").append(`
+                    <option selected disabled>Выберите водоток</option>
+                `);
+
+                response.forEach((line) => {
+                    $("#id_watercourse").append(`
+                        <option value="${line.id}">${line.name}</option>
+                    `);
+                });
+            },
+            error: (e) => {
+                console.log("Error: ", e);
+            }
+        })
+    });
+
     $("#id_watercourse").change((event) => {
         $.ajax({
             url: `${MAIN_URL}/lines/${event.currentTarget.value}`,
