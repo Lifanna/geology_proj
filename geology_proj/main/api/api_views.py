@@ -132,6 +132,7 @@ class LineListAPIView(ListAPIView):
     serializer_class = serializers.LineSerializer
     model = serializer_class.Meta.model
     permission_classes = [AllowAny,]
+    queryset = serializer_class.Meta.model.objects.all()
 
     def list(self, request, watercourse_id):
         queryset = self.serializer_class.Meta.model.objects.filter(watercourse__id=watercourse_id).all()

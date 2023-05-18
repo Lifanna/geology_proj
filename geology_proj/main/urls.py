@@ -71,7 +71,7 @@ urlpatterns = [
     # wells urls
     path('wells/add', views.WellCreateView.as_view(), name='wells_add'),
     path('wells/<int:task_id>/<int:pk>', views.WellDetailView.as_view(), name='wells_detail'),
-    path('wells/edit/<int:pk>', views.WellEditView.as_view(), name='wells_edit'),
+    path('wells/edit/<int:task_id>/<int:pk>', views.WellEditView.as_view(), name='wells_edit'),
     path('wells/set_welltasks/<int:pk>', views.WellTaskCreateView.as_view(), name='wells_task_add'),
 
     path('wells_by_line/<int:line_id>', api_views.WellListAPIView.as_view(), name='wells_list_by_line'),

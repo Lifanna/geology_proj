@@ -91,6 +91,7 @@ class TaskUpdateForm(forms.ModelForm):
 
     def save(self):
         for name in self.files.getlist('images'):
+            print("AZAZAZA: ", name)
             task_image_single = models.TaskImageSingle()
             _, ext = os.path.splitext(name.name)
             newname = f'{uuid4()}{ext}'
@@ -107,7 +108,7 @@ class TaskUpdateForm(forms.ModelForm):
             task_image.save()
             
 
-        return super().save(commit=True)
+        return super().save(commit=False)
 
     class Meta:
         model = models.Task
@@ -117,7 +118,7 @@ class TaskUpdateForm(forms.ModelForm):
             'license',
             'watercourse',
             'line',
-            'wells',
+            # 'wells',
             'images',
             'responsible',
             'status',

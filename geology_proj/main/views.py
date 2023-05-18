@@ -270,7 +270,7 @@ class LicenseWaterCourseCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def get_success_url(self):
-        success_url = f"/objects/edit/{self.kwargs.get('pk')}"
+        success_url = f"/objects/set_watercourses/{self.kwargs.get('pk')}"
 
         return success_url
 
@@ -334,7 +334,7 @@ class LineCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def get_success_url(self):
-        success_url = f"/objects/edit/{self.kwargs.get('license_id')}"
+        success_url = f"/objects/set_lines/{self.kwargs.get('license_id')}"
 
         return success_url
 
@@ -444,6 +444,13 @@ class WellEditView(LoginRequiredMixin, UpdateView):
     template_name = "main/tasks/wells/edit.html"
     model = models.Well
     form_class = forms.WellUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['task_id'] = self.kwargs.get("task_id")
+
+        return context
 
     def get_success_url(self):
         success_url = "/wells/edit/%s"%self.get_object().pk
