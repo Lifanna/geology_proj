@@ -130,3 +130,7 @@ dmypy.json
 .pyre/
 
 /geology_proj/db.sqlite3
+creds.txt
+.restart-app
+
+/geology_proj/media/
