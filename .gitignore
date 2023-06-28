@@ -134,3 +134,4 @@ creds.txt
 .restart-app
 
 /geology_proj/media/
+/geology_proj/asddb.sqlite3
