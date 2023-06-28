@@ -1,18 +1,42 @@
-# import pandas as pd
-# import numpy as np
-# import matplotlib.pyplot as plt
-# from matplotlib import patheffects
-# import matplotlib.ticker as ticker
-# import seaborn as sns
-# import os
-# import math
-# from PIL import Image
-# from cycler import cycler
-# import io
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import patheffects
+import matplotlib.ticker as ticker
+import seaborn as sns
+import os
+import math
+from PIL import Image
+from cycler import cycler
+import io
+from main import models
+from django.core import serializers
 
 
-# #читаем таблиц из файлов
-# def generate_mine():
+def generate_mine(wells):
+    wells_json = []
+    for well_id in wells:
+        well = models.Well.objects.get(pk=well_id)
+        layers = models.Layer.objects.filter(well=well)
+        layers_depths = []
+        layers_materials = []
+        layers_json = serializers.serialize('json', layers)
+        for layer in layers:
+            layers_depths.append(layer.depth)
+            layers_materials.append(layer.layer_material.name)
+
+            wells_json.append(
+                {
+                    'slice_number': well.line.name, # линия
+                    'river': well.line.watercourse.name, # водоток
+                    'borehole_number': well.name, # номер скважины
+                    'gps': [well.x, well.y, well.z], # координаты
+                    'layers_power': layers_depths,
+                    'layers_id': layers_materials,
+                    'layers_json_all': layers_json,
+                },
+            )
+
 #     material_df = pd.read_csv('main/services/materials_db.csv')
 #     slice_data = pd.read_csv('main/services/slice_data.csv')
 
@@ -146,7 +170,6 @@
 
 #     zero_level=[]
 #     for i in range(0,slice_data.shape[0]):
-#         #print(slice_data.iloc[i][3])
 #         zero_level.append(slice_data.iloc[i][3]-summ_slice_power[i]-2)
         
 
@@ -158,7 +181,6 @@
 
 #     ###
 #     #отображение графика
-#     print('image=')
 
 #     stack = [zero_level]
 

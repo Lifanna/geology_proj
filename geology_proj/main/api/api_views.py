@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from main.api import image_decoder
 import io
-# from main.services import mine_generator
+from main.services import mine_generator
 from django.http import HttpResponse
 
 
@@ -29,7 +29,6 @@ class TaskListView(ListAPIView):
     permission_classes = [IsAuthenticated,]
 
     def list(self, request):
-        print("DDDD:", request.user.id)
         queryset = self.serializer_class.Meta.model.objects.filter(responsible__id=request.user.id, status__name="на выполнении").all()
 
         serializer = serializers.TaskSerializer(queryset, many=True, context= {'request': request})
@@ -67,8 +66,6 @@ class SyncronizeViewSet(ViewSet):
         success = False
         post_data = request.data
 
-        print("EEEEEEE: ", post_data.get('tasks'))
-
         for task in post_data.get('tasks'):
             existing_task = models.Task.objects.get(pk=task.get('id'))
             existing_task.status = models.TaskStatus.objects.get(name=task.get('status_name'))
@@ -92,7 +89,6 @@ class SyncronizeViewSet(ViewSet):
             well_object.save()
 
         for layer in post_data.get('layers'):
-            # print("TTTTTTTTTT:", layer.get('layer_material_id'))
             layer_well = models.Well.objects.get(name=layer.get('well_name'), line__id=layer.get('line_id'))
             layer_layer_material = models.LayerMaterial.objects.get(pk=layer.get('layer_material_id'))
             layer_object, layer_exists = models.Layer.objects.get_or_create(
@@ -102,6 +98,7 @@ class SyncronizeViewSet(ViewSet):
             # layer_object.responsible = request.user
             layer_object.responsible = models.CustomUser.objects.get(pk=1)
             layer_object.name = layer.get('name')
+            layer_object.depth = float(layer.get('name'))
             layer_object.description = layer.get('description')
             layer_object.comment = layer.get('comment')
             layer_object.layer_material = layer_layer_material
@@ -174,9 +171,8 @@ class MineImageCreateAPIView(ListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         wells_ids_list = request.data
-        print("PPPPPPP: ", wells_ids_list.get("wells"))
 
-        # image = mine_generator.generate_mine()
-        
+        image = mine_generator.generate_mine(wells_ids_list.get("wells"))
+
         return Response({'img': image}, status=201)
         # return HttpResponse(image, content_type='image/png')

@@ -41,10 +41,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 @login_required
 @permission_required('main.add_license')
 def the_view(request):
-    print(request.user.has_perm('main.add_license'))
-        
-    for per in request.user.get_user_permissions():
-        print("ASDASD", per)
     return render(request, 'main/index.html')
 
 class MainMenuView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -54,12 +50,6 @@ class MainMenuView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user.get_all_permissions()
-        # print("DDDDDD: ", user)
-        # print(self.request.user.has_perm('main.add_license'))
-        if self.request.user.has_perm('main.add_license'):
-            print("DA")
-        else:
-            print("NET")
         if self.request.GET.get("target") == "objects":
             queryset = models.License.objects.all()
 
@@ -248,7 +238,7 @@ class WaterCourseCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def get_success_url(self):
-        success_url = f"/objects/edit/{self.kwargs.get('license_id')}"
+        success_url = f"/objects/set_watercourses/{self.kwargs.get('license_id')}"
 
         return success_url
 
@@ -453,7 +443,7 @@ class WellEditView(LoginRequiredMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        success_url = "/wells/edit/%s"%self.get_object().pk
+        success_url = "/wells/%s/%s"%(self.kwargs.get("task_id"), self.get_object().pk)
 
         return success_url
 
@@ -494,7 +484,8 @@ class LayerDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         well_id = self.request.GET.get("well")
-        context['back_url'] = f"/wells/{well_id}"
+        task_id = self.request.GET.get("task")
+        context['back_url'] = f"/wells/{task_id}/{well_id}"
         context['well_id'] = well_id
 
         return context
@@ -530,8 +521,6 @@ class DocumentationCreateView(LoginRequiredMixin, CreateView):
         watercourse = form.cleaned_data.get('watercourse')
         line = form.cleaned_data.get('line')
         well = form.cleaned_data.get('well')
-
-        print(license.watercourses.all())
 
         watercourse_bound = models.LicenseWaterCourse.objects.get(watercourse = watercourse)
 
@@ -571,6 +560,26 @@ class MineCreateView(LoginRequiredMixin, CreateView):
     model = models.Mine
     form_class = forms.MineCreateForm
     success_url = "/main_menu?target=mine"
+
+    # def post(self, request, *args, **kwargs):
+    #     json = [
+    #         {
+    #             'slice_number': str(номер линии),
+    #             'river': str(название водотока),
+    #             'borehole_number': str(номер скважины),
+    #             'gps': [float, float, float](координаты),
+    #             'layers_power':[float, float,..., float](мощность интервалов),
+    #             'layers_id':[float, float,..., float](типы материалов),
+                
+    #         },
+            
+    #         ...,
+            
+    #         {
+                
+    #         }
+    #     ]
+    #     return super().post(request, *args, **kwargs)
 
 
 class MineDetailView(LoginRequiredMixin, DetailView):

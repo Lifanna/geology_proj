@@ -1,130 +1,20 @@
 import openpyxl
 from openpyxl.styles.borders import Border, Side
+from openpyxl.styles.cell_style import CellStyle
 from openpyxl.styles.alignment import Alignment
 from openpyxl.styles import Font
 from main import models
 from openpyxl.utils import get_column_letter
-import json
+import json, os
+from django.conf import settings
+from django.db.models import Max
 
 
 class ExportToExcelService:
     def __init__(self):
-        self.workbook = openpyxl.load_workbook("main/services/example.xlsx")
+        self.workbook = openpyxl.load_workbook(os.path.realpath(os.path.dirname(__file__)) + "/example.xlsx")
         self.worksheet_1 = self.workbook.active
         self.worksheet_2 = self.workbook.get_sheet_by_name('Стр. 2')
-        # self.worksheet_2 = self.workbook.active
-
-    # def build_document(self, license : models.License, 
-    #                    watercourse: models.WaterCourse, 
-    #                    watercourse_bound: models.LicenseWaterCourse, 
-    #                    line: models.Line, 
-    #                    wells
-    # ):
-    #     error_message = ""
-    #     filepath = "main/services/asd.xlsx"
-    #     well_depths = {}
-    #     with open('main/services/wellDepths.json', mode="r", encoding='utf8') as wellDepths:
-    #         well_depths = json.load(wellDepths)
-
-    #     try:
-    #         self.worksheet.title = license.short_name
-
-    #         self.worksheet.merge_cells(start_row=1, start_column=1, end_row=1, end_column=17)
-    #         self.worksheet.cell(column=1, row=1, value=license.short_name)
-    #         self.worksheet.cell(column=1, row=1).font = Font(bold=True)
-
-    #         row_index = 2
-    #         for well in wells:
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=1, end_row=row_index, end_column=13)
-    #             self.worksheet.cell(column=1, row=row_index, value="Описание разреза отложений по скважине")
-
-    #             row_index += 1
-
-    #             # отображаем водотоки
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=1, end_row=row_index, end_column=5)
-    #             self.worksheet.cell(column=1, row=row_index, value=watercourse.name)
-
-    #             # если имеется главный водоток
-    #             if watercourse_bound.parent_watercourse and watercourse_bound.parent_watercourse.id != watercourse_bound.watercourse.id:
-    #                 self.worksheet.cell(column=6, row=row_index, value=watercourse_bound.parent_watercourse.name)
-
-    #             row_index += 1
-
-    #             # отображаем линии
-    #             self.worksheet.cell(column=1, row=row_index, value=line.name)
-
-    #             row_index += 1
-
-    #             # отображаем сведения о скважинах и их интервалах
-    #             self.worksheet.cell(column=14, row=row_index, value=well.name)
-    #             row_index += 1
-    #             # отображаем даты бурения скважин: начала и окончания
-    #             self.worksheet.cell(column=1, row=row_index, value="Бурение начато")
-    #             self.worksheet.cell(column=1, row=row_index, value=well.created_at.date())
-    #             self.worksheet.cell(column=6, row=row_index, value="Бурение окончено")
-    #             self.worksheet.cell(column=6, row=row_index, value=well.updated_at.date()) 
-    #             row_index += 1
-
-    #             layers = models.Layer.objects.filter(well__id=well.id)
-
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=1, end_row=row_index + 2, end_column=1)
-    #             self.worksheet.cell(column=1, row=row_index, value="№ проходки/пробы")
-
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=2, end_row=row_index, end_column=3)
-    #             self.worksheet.cell(column=2, row=row_index, value="Глубина, м")
-    #             self.worksheet.merge_cells(start_row=row_index + 1, start_column=2, end_row=row_index + 2, end_column=2)
-    #             self.worksheet.cell(column=2, row=row_index + 1, value="скв-ны")
-    #             self.worksheet.merge_cells(start_row=row_index + 1, start_column=3, end_row=row_index + 2, end_column=3)
-    #             self.worksheet.cell(column=3, row=row_index + 1, value="обсада")
-
-    #             self.worksheet.cell(column=4, row=row_index, value="Диаметр бурения, мм")
-    #             self.worksheet.cell(column=5, row=row_index, value="Литологическая колонка")
-    #             self.worksheet.cell(column=6, row=row_index, value="Глубина контакта")
-    #             self.worksheet.cell(column=7, row=row_index, value="Мощность")
-    #             self.worksheet.cell(column=8, row=row_index, value="Кат. пород")
-    #             self.worksheet.cell(column=9, row=row_index, value="Отметка о водоносности")
-    #             self.worksheet.cell(column=10, row=row_index, value="Выход керна")
-
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=11, end_row=row_index, end_column=12)
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=11, end_row=row_index + 1, end_column=11)
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=12, end_row=row_index + 1, end_column=12)
-    #             self.worksheet.cell(column=11, row=row_index, value="Выход керна")
-
-    #             row_index += 3
-
-    #             depths_row_index = row_index
-    #             for number, depth_value in well_depths.get("wellDepths").items():
-    #                 self.worksheet.cell(column=1, row=depths_row_index, value=str(number))
-    #                 self.worksheet.cell(column=2, row=depths_row_index, value=str(depth_value))
-    #                 self.worksheet.merge_cells(start_row=depths_row_index, start_column=1, end_row=depths_row_index + 5, end_column=1)
-
-    #                 depths_row_index += 6
-
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=6, end_row=row_index + 50, end_column=6)
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=6, end_row=row_index + 59, end_column=6)
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=6, end_row=row_index + 78, end_column=6)
-
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=7, end_row=row_index + 50, end_column=7)
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=7, end_row=row_index + 59, end_column=7)
-    #             self.worksheet.merge_cells(start_row=row_index, start_column=7, end_row=row_index + 78, end_column=7)
-
-    #             for layer in layers:
-    #                 # self.worksheet.cell(column=6, row=row_index, value=layer.name)
-
-    #                 # диаметр бурения, мм
-    #                 self.worksheet.cell(column=4, row=row_index, value="151")
-
-    #                 row_index += 1
-
-    #             row_index += 1
-
-    #         self.workbook.save(filepath)
-    #         self.workbook.close()
-    #     except Exception as e:
-    #         print("ERROR: ", e)
-    #         error_message = e
-    #     finally:
-    #         return error_message
 
     def build_document(self, license : models.License, 
                        watercourse: models.WaterCourse, 
@@ -133,7 +23,7 @@ class ExportToExcelService:
                        well
     ):
             error_message = ""
-            filepath = "media/example.xlsx"
+            filepath = "%s/example.xlsx"%settings.MEDIA_ROOT
         # try:
             self.worksheet_1.title = license.short_name
 
@@ -161,7 +51,74 @@ class ExportToExcelService:
             layers = models.Layer.objects.filter(well__id=well.id)
 
             row_index = 9
+            cells_index = 9
             prev_depth = 0
+            depth_step = 0.5
+
+            n_cells_for_layers = int(layers.aggregate(Max('depth')).get("depth__max") / 0.5)
+
+            for cell_layer_index in range(1, n_cells_for_layers + 1):
+                thin_border = Border(left=Side(style='thin', color='000000'), 
+                                    right=Side(style='thin', color='000000'), 
+                                    top=Side(style='thin', color='000000'), 
+                                    bottom=Side(style='thin', color='000000'))
+                
+                # my_style = CellStyle(border=thin_border)
+
+                self.worksheet_1.cell(column=1, row=cells_index, value=cell_layer_index)
+
+                self.worksheet_1.cell(column=2, row=cells_index, value=str(depth_step))
+
+
+                self.worksheet_1.cell(column=10, row=cells_index, value=str(6900))
+
+                self.worksheet_1.cell(column=11, row=cells_index, value=str(100))
+
+                self.worksheet_1.cell(column=12, row=cells_index, value=str(6900))
+
+                self.worksheet_1.cell(column=13, row=cells_index, value=str("пс"))
+
+                self.worksheet_1.cell(column=1, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=2, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=3, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=4, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=10, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=11, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=12, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=13, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=14, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=15, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=16, row=cells_index).border = thin_border
+                self.worksheet_1.cell(column=17, row=cells_index).border = thin_border
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=1, end_row=cells_index + 4, end_column=1)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=2, end_row=cells_index + 4, end_column=2)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=3, end_row=cells_index + 4, end_column=3)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=4, end_row=cells_index + 4, end_column=4)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=10, end_row=cells_index + 4, end_column=10)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=11, end_row=cells_index + 4, end_column=11)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=12, end_row=cells_index + 4, end_column=12)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=13, end_row=cells_index + 4, end_column=13)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=14, end_row=cells_index + 4, end_column=14)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=15, end_row=cells_index + 4, end_column=15)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=16, end_row=cells_index + 4, end_column=16)
+                self.worksheet_1.merge_cells(
+                        start_row=cells_index, start_column=17, end_row=cells_index + 4, end_column=17)
+                
+
+                depth_step += 0.5
+
+                cells_index += 5
 
             # отображаем сведения о слоях
             for layer in layers:
@@ -212,7 +169,7 @@ class ExportToExcelService:
 
             row_index = 4
             prev_depth = 0
-            self.worksheet_2.cell(column=2, row=1, value=well.name)
+            self.worksheet_2.cell(column=10, row=1, value=well.name)
             for layer in layers:
                 thin_border = Border(left=Side(style='thin'), 
                                     right=Side(style='thin'), 
@@ -223,7 +180,7 @@ class ExportToExcelService:
 
                 self.worksheet_2.merge_cells(
                         start_row=row_index, start_column=1, end_row=row_index + 4, end_column=1)
-                
+
                 self.worksheet_2.merge_cells(
                         start_row=row_index, start_column=2, end_row=row_index + 4, end_column=2)
 
@@ -237,7 +194,6 @@ class ExportToExcelService:
             self.workbook.save(filepath)
             self.workbook.close()
         # except Exception as e:
-        #     print("ERROR: ", e)
         #     error_message = e
         # finally:
         #     return error_message

@@ -103,7 +103,7 @@ $(document).ready(() => {
 
     $("#id_license").change((event) => {
         $.ajax({
-            url: `${MAIN_URL}/watercourses_by_license/${event.currentTarget.value}`,
+            url: `${MAIN_URL}/watercourses_by_license/${event.target.value}`,
             method: 'GET',
             success: (response) => {
                 $("#id_watercourse").html('');
@@ -155,10 +155,10 @@ $(document).ready(() => {
             url: `${MAIN_URL}/wells_by_line/${event.currentTarget.value}`,
             method: 'GET',
             success: (response) => {
-                $("#id_well").html('');
+                $("#id_wells").html('');
 
                 response.forEach((well) => {
-                    $("#id_well").append(`
+                    $("#id_wells").append(`
                         <option value="${well.id}">${well.name}</option>
                     `);
                 });
