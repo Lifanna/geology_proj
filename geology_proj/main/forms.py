@@ -106,7 +106,7 @@ class TaskUpdateForm(forms.ModelForm):
             )
             task_image.save()
 
-        return super().save(commit=False)
+        return super(TaskUpdateForm, self).save(commit=True)
 
     class Meta:
         model = models.Task
